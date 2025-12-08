@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="app.ui.controller.HomeController"
+      spacing="20" styleClass="content-area">
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="tituloLabel" styleClass="label-header" />
+        <Pane HBox.hgrow="ALWAYS" />
+        <Button text="Editar Perfil" onAction="#onEditarPerfil" styleClass="button, button-secondary"/>
+    </HBox>
+
+    <FlowPane hgap="20" vgap="20">
+        <VBox styleClass="card" minWidth="200">
+            <Label text="Calorias Hoje" styleClass="label-subheader"/>
+            <Label fx:id="caloriesLabel" text="0 / 0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2D3436;"/>
+            <ProgressBar fx:id="caloriesBar" progress="0.0" maxWidth="Infinity" style="-fx-accent: #4CAF50;" />
+        </VBox>
+
+        <VBox styleClass="card" minWidth="200">
+            <Label text="Água" styleClass="label-subheader"/>
+            <Label fx:id="waterLabel" text="0 L / 0 L" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #03A9F4;"/>
+            <ProgressBar fx:id="waterBar" progress="0.0" maxWidth="Infinity" style="-fx-accent: #03A9F4;" />
+        </VBox>
+        
+        <VBox styleClass="card" minWidth="200">
+            <Label text="IMC" styleClass="label-subheader"/>
+            <Label fx:id="bmiLabel" text="0.0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #FF9800;"/>
+            <Label fx:id="bmiStatusLabel" text="-" style="-fx-text-fill: #4CAF50; -fx-font-weight: bold;"/>
+        </VBox>
+    </FlowPane>
+    
+    <!-- Macros -->
+    <HBox spacing="10">
+        <VBox spacing="5" styleClass="card" HBox.hgrow="ALWAYS">
+            <Label text="Proteína" styleClass="label-subheader"/>
+            <Label fx:id="protLabel" text="0g / 0g" styleClass="label-data-small"/>
+            <ProgressBar fx:id="protBar" maxWidth="Infinity" progress="0.0"/>
+        </VBox>
+        <VBox spacing="5" styleClass="card" HBox.hgrow="ALWAYS">
+            <Label text="Hidratos" styleClass="label-subheader"/>
+            <Label fx:id="carbLabel" text="0g / 0g" styleClass="label-data-small"/>
+            <ProgressBar fx:id="carbBar" maxWidth="Infinity" progress="0.0"/>
+        </VBox>
+        <VBox spacing="5" styleClass="card" HBox.hgrow="ALWAYS">
+            <Label text="Gordura" styleClass="label-subheader"/>
+            <Label fx:id="fatLabel" text="0g / 0g" styleClass="label-data-small"/>
+            <ProgressBar fx:id="fatBar" maxWidth="Infinity" progress="0.0"/>
+        </VBox>
+    </HBox>
+
+    <!-- Graph -->
+    <VBox styleClass="card" VBox.vgrow="ALWAYS">
+        <Label text="Evolução de Peso" styleClass="label-subheader"/>
+        <LineChart fx:id="weightChart">
+            <xAxis><CategoryAxis label="Data" /></xAxis>
+            <yAxis><NumberAxis label="Peso (kg)" /></yAxis>
+        </LineChart>
+    </VBox>
+
+</VBox>

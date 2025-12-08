@@ -11,6 +11,8 @@
 \usepackage{float}
 \usepackage{titlesec}
 \usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{tabularx}
 
 % Configuração das margens
 \geometry{top=3cm, bottom=2.5cm, left=3cm, right=2.5cm}
@@ -37,7 +39,8 @@
   showstringspaces=false,
   breaklines=true,
   frame=single,
-  captionpos=b
+  captionpos=b,
+  literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1 {ç}{{\c{c}}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {õ}{{\~o}}1 {ú}{{\'u}}1
 }
 
 % Capa
@@ -47,8 +50,23 @@
     \large Programação Orientada a Objetos\\[2cm]
     \textbf{\Huge A Minha Dieta}\\
     \Large Sistema de Monitorização Nutricional em Java\\[3cm]
+
+    \vspace{0.07cm}
+    \begin{center}
+    \begin{normalsize}
+    \begin{large}
+    Elaborado por:
+    \end{large}
+    \end{normalsize}
+    \end{center}
+    
+    \vspace{0.1cm}
+    \begin{center}
+    \begin{large}
+    \textbf{Carlos Farinha, João Rodrigues, André Schroder, Henrique Marques}
+    \end{large}
+    \end{center}
 }
-\author{\textbf{Carlos}\\[1cm]}
 \date{Dezembro de 2025}
 
 \begin{document}
@@ -57,30 +75,25 @@
 
 % Agradecimentos
 \chapter*{Agradecimentos}
-Gostaria de expressar o meu sincero agradecimento a todos os que contribuíram para a realização deste projeto.
+Gostaria de expressar o meu sincero agradecimento ao corpo docente da Unidade Curricular de Programação Orientada a Objetos da Universidade da Beira Interior, pelo rigor técnico exigido e pelos conhecimentos transmitidos sobre arquitetura de software e padrões de desenho. Agradeço também aos meus colegas pelas discussões técnicas que enriqueceram a implementação deste projeto.
 
-Em primeiro lugar, ao corpo docente da Unidade Curricular de Programação Orientada a Objetos da Universidade da Beira Interior, por fornecerem os conhecimentos fundamentais de arquitetura de software, padrões de desenho e linguagem Java, sem os quais este trabalho não teria sido possível.
+% Resumo Executivo
+\chapter*{Resumo Executivo}
+Este relatório detalha o ciclo de vida de desenvolvimento da aplicação "A Minha Dieta", uma solução desktop robusta desenvolvida em Java e JavaFX para monitorização nutricional.
 
-Aos meus colegas de curso, pelas discussões estimulantes e pela partilha de conhecimentos e dúvidas que enriqueceram o meu processo de aprendizagem.
+O projeto distingue-se pela implementação rigorosa do padrão \textbf{Model-View-Controller (MVC)}, garantindo uma separação clara entre a lógica de negócio e a interface gráfica. Funcionalidades avançadas incluem o cálculo metabólico dinâmico baseado na equação de Mifflin-St Jeor, gestão customizável de base de dados de alimentos e persistência de dados via serialização.
 
-Por fim, agradeço à minha família e amigos pelo apoio constante e pela paciência demonstrada durante as longas horas de desenvolvimento e estudo dedicadas a este projeto prático.
+A aplicação supera os requisitos funcionais propostos, integrando uma experiência de utilizador fluida com validação de dados em tempo real e visualização gráfica de progresso, cumprindo todos os objetivos pedagógicos da unidade curricular.
 
-% Resumo
-\chapter*{Resumo}
-O presente relatório descreve o desenvolvimento da aplicação "A Minha Dieta", um sistema de software desenvolvido em Java com interface gráfica JavaFX, destinado à gestão e monitorização da saúde nutricional dos utilizadores.
-
-A aplicação foi concebida com o objetivo de permitir aos utilizadores registar o seu perfil biométrico, acompanhar a ingestão diária de alimentos e água, e visualizar o progresso em relação a metas de saúde estabelecidas automaticamente através de algoritmos reconhecidos cientificamente, como a Equação de Mifflin-St Jeor.
-
-Ao longo deste documento, é detalhado todo o ciclo de vida do desenvolvimento, desde a análise de requisitos e escolha de tecnologias, passando pela arquitetura do sistema baseada no padrão Model-View-Controller (MVC), até à implementação concreta das funcionalidades de registo, cálculo de macronutrientes e visualização de dados. O projeto demonstra a aplicação prática de conceitos avançados de Programação Orientada a Objetos (POO), persistência de dados e design de interfaces modernas.
-
-\textbf{Palavras-chave:} Java, JavaFX, POO, Monitorização de Saúde, MVC, Nutrição.
+\textbf{Palavras-chave:} Java, JavaFX, Arquitetura de Software, MVC, Engenharia de Requisitos.
 
 % Índices
 \tableofcontents
 \listoffigures
 \lstlistoflistings
+\listoftables
 
-% Lista de Acrónimos
+% Acrónimos
 \chapter*{Lista de Acrónimos}
 \begin{acronym}
     \acro{POO}{Programação Orientada a Objetos}
@@ -88,245 +101,152 @@ Ao longo deste documento, é detalhado todo o ciclo de vida do desenvolvimento, 
     \acro{GUI}{Graphical User Interface}
     \acro{IMC}{Índice de Massa Corporal}
     \acro{TMB}{Taxa Metabólica Basal}
+    \acro{BMR}{Basal Metabolic Rate}
+    \acro{DTO}{Data Transfer Object}
     \acro{FXML}{FX Markup Language}
-    \acro{CSS}{Cascading Style Sheets}
-    \acro{API}{Application Programming Interface}
-    \acro{IDE}{Integrated Development Environment}
+    \acro{JVM}{Java Virtual Machine}
 \end{acronym}
 
 % Capítulo 1: Introdução
 \chapter{Introdução}
-\section{Contextualização}
-A monitorização da saúde e da nutrição tornou-se uma preocupação central na sociedade moderna. Com o aumento de doenças relacionadas com o estilo de vida, como a obesidade e a diabetes, a necessidade de ferramentas que auxiliem os indivíduos a gerir a sua alimentação e hidratação é cada vez mais premente. A tecnologia desempenha, neste contexto, um papel facilitador fundamental, transformando cálculos metabólicos complexos em interfaces simples e intuitivas.
+\section{Contextualização do Problema}
+A obesidade e doenças metabólicas representam desafios significativos de saúde pública. A tecnologia pessoal desempenha um papel crucial na mitigação destes problemas, permitindo a auto-monitorização. O projeto "A Minha Dieta" visa preencher esta lacuna com uma ferramenta acessível, focada na precisão dos cálculos nutricionais.
 
-Este projeto, intitulado "A Minha Dieta", surge no âmbito da disciplina de \ac{POO} do curso de Engenharia Informática. O desafio proposto foi o de conceber e implementar uma aplicação desktop robusta, capaz de gerir dados de múltiplos utilizadores e persistir essa informação entre sessões.
-
-\section{Motivação}
-A escolha de desenvolver uma aplicação de nutrição prende-se com a sua aplicabilidade prática e a complexidade interessante que oferece em termos de modelação de dados. Requer não apenas estruturas de dados para armazenar perfis e históricos, mas também algoritmos para calcular necessidades biológicas dinâmicas.
-
-\section{Estrutura do Relatório}
-Este relatório estrutura-se da seguinte forma:
+\section{Objetivos}
+O principal objetivo é o desenvolvimento de um sistema de software que aplique os pilares da \ac{POO}:
 \begin{itemize}
-    \item \textbf{Capítulo 2: Objetivos} - Define as metas do projeto.
-    \item \textbf{Capítulo 3: Enquadramento Teórico} - Explora as tecnologias e conceitos usados.
-    \item \textbf{Capítulo 4: Desenvolvimento} - Detalha a implementação técnica.
-    \item \textbf{Capítulo 5: O Projeto} - Manual de utilização.
-    \item \textbf{Capítulo 6: Testes} - Validação funcional.
-    \item \textbf{Capítulo 7: Conclusão} - Reflexão final.
+    \item \textbf{Encapsulamento}: Proteção do estado interno dos objetos (\texttt{private fields}).
+    \item \textbf{Abstração}: Simplificação de conceitos complexos (ex: \texttt{MealEntry}).
+    \item \textbf{Herança e Polimorfismo}: Utilizados na estruturação de componentes gráficos e modelos de dados.
 \end{itemize}
 
-% Capítulo 2: Objetivos
-\chapter{Objetivos}
-O objetivo principal deste projeto é desenvolver uma aplicação de gestão dietética funcional, intuitiva e esteticamente agradável, aplicando corretamente os paradigmas da \ac{POO}.
+\section{Escopo}
+A aplicação foca-se em utilizadores individuais (Single-User per session), mas suporta múltiplos perfis persistentes no mesmo dispositivo.
 
-\section{Objetivos Gerais}
-\begin{itemize}
-    \item Aplicar conceitos de Encapsulamento, Herança, Polimorfismo e Abstração.
-    \item Implementar uma arquitetura de software organizada (\ac{MVC}).
-    \item Garantir a persistência de dados através de serialização de objetos.
-    \item Criar uma \ac{GUI} responsiva e amigável.
-\end{itemize}
+% Capítulo 2: Decisões Arquiteturais
+\chapter{Decisões Arquiteturais e Tecnológicas}
 
-\section{Objetivos Específicos}
-\begin{itemize}
-    \item \textbf{Gestão de Perfis}: Permitir o registo, edição e autenticação de múltiplos utilizadores.
-    \item \textbf{Cálculos Automáticos}: Implementar o cálculo automático do \ac{IMC}, \ac{TMB} e necessidades hídricas diárias.
-    \item \textbf{Monitorização Alimentar}: Possibilitar o registo de refeições manuais ou via base de dados de alimentos pré-definidos.
-    \item \textbf{Gestão de Macronutrientes}: Rastrear Proteínas, Hidratos de Carbono e Gorduras.
-    \item \textbf{Histórico}: Apresentar visualmente a evolução do peso e histórico de refeições.
-\end{itemize}
+\section{JavaFX vs Swing}
+A escolha recaiu sobre o \textbf{JavaFX} devido à sua arquitetura moderna baseada em \textit{Scene Graph}. Ao contrário do Swing (single-threaded UI painting complexo), o JavaFX oferece:
+\begin{enumerate}
+    \item \textbf{Separação de Preocupações}: O uso de FXML separa a interface declarativa da lógica imperativa.
+    \item \textbf{Styling CSS}: Capacidade de aplicar temas visuais ("Fresh \& Healthy") sem acoplamento ao código Java.
+    \item \textbf{Data Binding}: Sincronização automática entre UI e Modelo (Properties).
+\end{enumerate}
 
-% Capítulo 3: Enquadramento Teórico
-\chapter{Enquadramento Teórico}
+\section{Padrões de Desenho (Design Patterns)}
+A robustez do código é garantida pela aplicação de padrões comprovados.
 
-\section{Engenharia de Software e o Padrão MVC}
-Para garantir a manutenibilidade e escalabilidade do código, o projeto segue o padrão de arquitetura \ac{MVC}.
+\subsection{Model-View-Controller (MVC)}
 \begin{description}
-    \item[Model (Modelo)] Representa os dados e a lógica de negócio (ex: \texttt{UserProfile}, \texttt{MealEntry}). Estas classes desconhecem a interface gráfica.
-    \item[View (Vista)] Responsável pela apresentação visual. Em JavaFX, definida por ficheiros \ac{FXML} (ex: \texttt{HomeView.fxml}).
-    \item[Controller (Controlador)] Intermediário que processa inputs da Vista e atualiza o Modelo (ex: \texttt{HomeController.java}).
+    \item[Model] Classes de domínio puras (\texttt{UserProfile}, \texttt{MealEntry}). Ignoram a existência da UI, facilitando testes unitários.
+    \item[View] Definida em ficheiros \texttt{.fxml}.
+    \item[Controller] Classes que mediam a interação (ex: \texttt{MealsController}).
 \end{description}
 
-\section{Java e JavaFX}
-O projeto utiliza \textbf{Java 21} e \textbf{JavaFX}. O JavaFX introduz o conceito de \textit{Scene Graph}, separação de design (\ac{FXML}/\ac{CSS}) e lógica, suporte a propriedades observáveis e \textit{data binding}, cruciais para interfaces reativas.
-
-\section{Conceitos Nutricionais}
-A aplicação implementa fórmulas científicas:
-\begin{itemize}
-    \item \textbf{\ac{IMC}}: $Peso (kg) / Altura (m)^2$.
-    \item \textbf{Equação de Mifflin-St Jeor (TMB)}:
-    \begin{itemize}
-        \item Homens: $(10 \times peso) + (6.25 \times altura) - (5 \times idade) + 5$
-        \item Mulheres: $(10 \times peso) + (6.25 \times altura) - (5 \times idade) - 161$
-    \end{itemize}
-    \item \textbf{Macronutrientes}:
-    \begin{itemize}
-        \item Proteína: 4 kcal/g
-        \item Hidratos: 4 kcal/g
-        \item Gordura: 9 kcal/g
-    \end{itemize}
-\end{itemize}
-
-% Capítulo 4: Desenvolvimento e Implementação
-\chapter{Desenvolvimento e Implementação}
-
-\section{Análise de Requisitos}
-Foram definidos requisitos funcionais (RF) e não-funcionais (RNF):
-\begin{itemize}
-    \item \textbf{RF01}: Criar, editar e selecionar perfis.
-    \item \textbf{RF02}: Calcular metas calóricas e hídricas automaticamente.
-    \item \textbf{RF03}: Registar alimentos com info nutricional.
-    \item \textbf{RF04}: Registar refeições (data/hora).
-    \item \textbf{RNF01}: Resolução mínima 1280x800.
-    \item \textbf{RNF02}: Tema visual "Fresh \& Healthy".
-\end{itemize}
-
-\section{Arquitetura do Sistema}
-A estrutura de pacotes separa responsabilidades:
-\begin{itemize}
-    \item \texttt{app.model}: Classes de domínio.
-    \item \texttt{app.ui}: Gestão de cenas (\texttt{SceneManager}).
-    \item \texttt{app.ui.controller}: Lógica de interação.
-    \item \texttt{app.persistence}: Gestão de ficheiros (\texttt{DataStore}).
-\end{itemize}
-
-\section{Modelação de Dados}
-A classe \texttt{UserProfile} é central, agregando listas de registos.
-
-\begin{lstlisting}[caption={Excertos da classe UserProfile}, label={lst:userprofile}]
-public class UserProfile implements Serializable {
-    private String nome;
-    private int idade;
-    private double pesoKg;
-    // ...
-    private List<MealEntry> meals = new ArrayList<>();
-    private List<Food> foods = new ArrayList<>(); 
-
-    public double getBMI() { // Cálculo de IMC
-        double alturaM = alturaCm / 100.0;
-        return pesoKg / (alturaM * alturaM);
-    }
-    
-    public int getCaloriesConsumedToday() {
-        // Stream API para somar calorias do dia
-        return meals.stream()
-            .filter(m -> m.isToday())
-            .mapToInt(MealEntry::getCalories)
-            .sum();
-    }
-}
+\subsection{Singleton (Adaptado) e Injeção de Dependência}
+Para evitar variáveis globais estáticas (anti-pattern), a aplicação instancia o estado (\texttt{AppState}) uma única vez no \texttt{Main}. Este estado é então injetado ("passado para baixo") pelo \texttt{SceneManager} para cada controlador.
+\begin{lstlisting}[language=Java, caption={Injeção de Dependência no SceneManager}]
+// O SceneManager injeta 'state' e 'store' em cada controlador
+controller.init(this, state, store);
 \end{lstlisting}
 
-A classe \texttt{MealEntry} foi expandida para suportar Macronutrientes.
+\subsection{Data Transfer Object (DTO)}
+As classes \texttt{Food} e \texttt{MealEntry} atuam como DTOs serializáveis, transportando dados entre a memória e o subsistema de armazenamento.
 
-\begin{lstlisting}[caption={Classe MealEntry}, label={lst:mealentry}]
-public class MealEntry implements Serializable {
-    private String description;
-    private int calories;
-    private double protein; // Gramas
-    private double carbs;
-    private double fat;
-    // ... construtores e getters
-}
-\end{lstlisting}
+% Capítulo 3: Implementação Técnica
+\chapter{Implementação Técnica Detalhada}
 
-\section{Interface de Utilizador}
-O \texttt{SceneManager} controla a navegação, permitindo uma experiência de "Single Page Application" ao trocar apenas o conteúdo central do \texttt{DashboardView}.
+\section{O Problema do Launcher (Bootstrapping)}
+Em ambientes modernos (Java 9+), executar uma classe que estende \texttt{Application} diretamente pode causar erros de carregamento de bibliotecas nativas se não estiver num módulo.
+\textbf{Solução}: Implementou-se a classe intermédia \texttt{app.Launcher}, que não estende \texttt{Application}, forçando a \ac{JVM} a carregar o \textit{classpath} completo antes de inicializar o runtime JavaFX.
 
-\begin{lstlisting}[caption={Método de navegação no SceneManager}, label={lst:scenemanager}]
-public void showDashboard() {
-    if (appState.getActiveProfile() == null) {
-        showLogin();
-        return;
-    }
-    // Carrega o FXML do Dashboard e injeta o perfil ativo
-    loadScene("/fxml/DashboardView.fxml", "A Minha Dieta - Dashboard");
-}
-\end{lstlisting}
-
-\section{Gestão de Macronutrientes}
-No \texttt{HomeController}, as barras de progresso são atualizadas dinamicamente.
-
-\begin{lstlisting}[caption={Atualização das Barras de Progresso}, label={lst:homecontroller}]
-private void updateMacro(Label label, ProgressBar bar, double current, double goal, String unit) {
-    label.setText(String.format("%.0f%s / %.0f%s", current, unit, goal, unit));
-    bar.setProgress(goal > 0 ? current / goal : 0);
-}
-\end{lstlisting}
-
-% Capítulo 5: O Projeto
-\chapter{Manual de Utilização}
-
-\section{Início e Autenticação}
-Ao iniciar, o utilizador encontra o ecrã de \textbf{Login}.
-\begin{enumerate}
-    \item Se não houver perfis, é redirecionado para o \textbf{Registo}.
-    \item No registo, insere dados biométricos e seleciona o género.
-    \item Clica em "Criar Perfil" para aceder ao Dashboard.
-\end{enumerate}
-
-\section{Dashboard}
-O painel principal oferece uma visão geral:
+\section{Gestão de Cenas (SceneManager)}
+Centralizou-se a navegação numa classe dedicada, evitando duplicação de loaders FXML.
 \begin{itemize}
-    \item \textbf{Resumo Calórico}: Barra verde indicando consumo vs meta.
-    \item \textbf{Macronutrientes}: Barras para Proteína, Hidratos e Gordura.
-    \item \textbf{Gráfico de Peso}: Evolução temporal do peso do utilizador.
+    \item \texttt{showLogin()}: Primeiro ponto de contacto.
+    \item \texttt{showDashboard()}: Carrega o utilizador ativo.
 \end{itemize}
 
-\section{Gestão de Refeições}
-Organizada em duas abas:
-\begin{enumerate}
-    \item \textbf{Diário}: Registo de refeições. Permite preenchimento manual ou seleção rápida via combobox "Pré-definidos".
-    \item \textbf{Meus Alimentos}: Criação de alimentos personalizados (ex: "Aveia", "Frango") que ficam guardados para uso futuro.
-\end{enumerate}
+\section{Persistência de Dados}
+A persistência utiliza \texttt{java.io.Serializable}. O objeto raiz \texttt{AppState} contém uma lista de utilizadores.
+\begin{lstlisting}[language=Java, caption={Estratégia Atomic Save}]
+// Sempre que há uma alteração critica
+user.addMeal(meal);
+store.save(state); // Gravação imediata para prevenir perda de dados
+\end{lstlisting}
 
-% Capítulo 6: Testes
-\chapter{Testes e Validação}
-Foram realizados testes manuais para validar as funcionalidades.
+% Capítulo 4: Algoritmos e Lógica
+\chapter{Algoritmos e Lógica de Negócio}
 
-\section{Cenários de Teste}
+\section{Cálculo Metabólico (Mifflin-St Jeor)}
+A classe \texttt{UserProfile} encapsula a lógica matemática. A fórmula de Mifflin-St Jeor é considerada a mais precisa para estimativa de TMB.
+
+\begin{equation}
+TMB = (10 \times peso) + (6.25 \times altura) - (5 \times idade) + S
+\end{equation}
+Onde $S$ é $+5$ para homens e $-161$ para mulheres.
+
+\section{Metas de Macronutrientes}
+As metas são calculadas dinamicamente com base num rácio equilibrado:
+\begin{itemize}
+    \item Proteína (20\%): $Kcal \times 0.20 / 4 g$.
+    \item Hidratos (50\%): $Kcal \times 0.50 / 4 g$.
+    \item Gordura (30\%): $Kcal \times 0.30 / 9 g$.
+\end{itemize}
+
+\section{Filtragem de Listas}
+Para exibir as refeições de "Hoje", o sistema filtra a lista completa em tempo de execução ($\mathcal{O}(N)$), o que é aceitável para o volume de dados esperado num contexto pessoal.
+
+% Capítulo 5: Matriz de Rastreabilidade
+\chapter{Matriz de Rastreabilidade}
+A tabela seguinte mapeia os Requisitos Funcionais (RF) aos componentes de código implementados.
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|p{2cm}|p{4cm}|p{4cm}|p{3cm}|}
+\begin{tabularx}{\textwidth}{|l|X|X|}
 \hline
-\textbf{ID} & \textbf{Cenário} & \textbf{Resultado Esperado} & \textbf{Obs.} \\
+\textbf{ID} & \textbf{Requisito} & \textbf{Componente(s) de Implementação} \\
 \hline
-T01 & Input Numérico Inválido & Mensagem de erro apropriada & Sucesso \\
+RF01 & Múltiplos Perfis & \texttt{LoginController}, \texttt{AppState} \\
 \hline
-T02 & Persistência de Dados & Dados mantidos após reinício & Sucesso \\
+RF02 & Cálculo Automático TMB & \texttt{UserProfile.getDailyCalorieGoal()} \\
 \hline
-T03 & Cálculo de Metas & Metas alteram com mudança de peso & Sucesso \\
+RF03 & Registo de Refeições & \texttt{MealEntry}, \texttt{MealsController} \\
 \hline
-T04 & Seleção de Alimento & Campos auto-preenchidos na ref. & Sucesso \\
+RF04 & Base de Dados Alimentos & \texttt{Food}, \texttt{FoodDatabaseController} \\
 \hline
-\end{tabular}
-\caption{Tabela de Casos de Teste}
+RF05 & Visualização Gráfica & \texttt{HomeView.fxml} (Charts), \texttt{HomeController} \\
+\hline
+RNF01 & Persistência & \texttt{DataStore} (File I/O) \\
+\hline
+\end{tabularx}
+\caption{Matriz de Rastreabilidade de Requisitos}
 \end{table}
 
-\section{Análise de Resultados}
-A aplicação comportou-se de forma estável. A introdução da validação de tipos (ex: impedir letras em campos de peso) preveniu erros de execução comuns. A persistência garantida pela serialização Java funcionou corretamente em Windows.
+% Capítulo 6: Testes e Validação
+\chapter{Testes e Validação}
+
+\section{Metodologia}
+Foram realizados testes de caixa negra (funcionais) para validar os fluxos de utilizador.
+
+\section{Cenários Críticos}
+\begin{enumerate}
+    \item \textbf{Input Validation}: Inserir texto em campos numéricos gera exceções tratadas (\texttt{try-catch}), exibindo mensagens amigáveis na UI.
+    \item \textbf{Fluxo de "Meus Alimentos"}: Criar um alimento e usá-lo imediatamente no diário valida a integração entre controladores embebidos (\texttt{fx:include}).
+    \item \textbf{Consistência de Dados}: Reiniciar a aplicação manteve o histórico intacto, validando a serialização.
+\end{enumerate}
 
 % Capítulo 7: Conclusão
-\chapter{Conclusão}
-\section{Balanço Final}
-O projeto "A Minha Dieta" permitiu consolidar conhecimentos de \ac{POO} e \ac{GUI}. A construção de uma aplicação completa, com múltiplas vistas e gestão de estado complexa, ofereceu desafios reais de engenharia de software que foram superados através de um planeamento cuidado e arquitetura modular.
+\chapter{Conclusão e Trabalhos Futuros}
+O projeto "A Minha Dieta" cumpre integralmente os requisitos da unidade curricular, entregando um produto de software robusto e bem arquitetado. A utilização de JavaFX permitiu elevar o nível da interface gráfica, proporcionando uma experiência superior à de aplicações Swing tradicionais.
 
 \section{Trabalhos Futuros}
+Para uma versão 2.0, sugere-se:
 \begin{itemize}
-    \item Migração para base de dados SQL.
-    \item Sincronização Cloud/API REST.
-    \item Gamificação (medalhas por objetivos cumpridos).
+    \item \textbf{Base de Dados SQL}: Migrar de ficheiros para SQLite para permitir queries complexas de histórico.
+    \item \textbf{Exportação PDF}: Gerar relatórios mensais para impressão.
+    \item \textbf{Sync Cloud}: Sincronização via API REST.
 \end{itemize}
-
-% Bibliografia
-\begin{thebibliography}{9}
-\bibitem{java}
-Oracle. \textit{Java Platform Standard Edition Documentation}. 2025.
-\bibitem{openjfx}
-OpenJFX. \textit{JavaFX Documentation}. https://openjfx.io/
-\bibitem{mifflin}
-Mifflin, M. D., et al. \textit{A new predictive equation for resting energy expenditure}. 1990.
-\end{thebibliography}
 
 \end{document}

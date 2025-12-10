@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
@@ -36,6 +38,8 @@ public class RegisterController {
     private Button guardarBtn;
     @FXML
     private Button cancelarBtn;
+    @FXML
+    private Button eliminarBtn;
 
     private SceneManager sceneManager;
     private AppState state;
@@ -72,9 +76,15 @@ public class RegisterController {
                 masculinoRadio.setSelected(true);
             else if (profileToEdit.getGender() == UserProfile.Gender.FEMALE)
                 femininoRadio.setSelected(true);
+
+            eliminarBtn.setVisible(true);
+            eliminarBtn.setManaged(true);
         } else {
             tituloLabel.setText("Criar Perfil");
             guardarBtn.setText("Criar Perfil");
+
+            eliminarBtn.setVisible(false);
+            eliminarBtn.setManaged(false);
         }
 
         // Só mostra Cancelar quando fores para aqui a partir do Dashboard
@@ -121,5 +131,22 @@ public class RegisterController {
     @FXML
     private void onCancelar() {
         sceneManager.showDashboard();
+    }
+
+    @FXML
+    private void onEliminar() {
+        if (profileToEdit == null)
+            return;
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Eliminar Perfil");
+        alert.setHeaderText("Tem a certeza que deseja eliminar este perfil?");
+        alert.setContentText("Esta ação não pode ser desfeita.");
+
+        if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+            state.removeProfile(profileToEdit.getId());
+            store.save(state);
+            sceneManager.showLogin();
+        }
     }
 }

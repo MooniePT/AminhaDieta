@@ -10,7 +10,7 @@
 
     <center>
         <StackPane style="-fx-background-color: #F4F6F8;">
-             <VBox spacing="20" maxWidth="400" maxHeight="500" styleClass="card" alignment="CENTER">
+             <VBox spacing="20" maxWidth="600" maxHeight="500" styleClass="card" alignment="CENTER">
                  <padding>
                      <Insets top="40" right="40" bottom="40" left="40"/>
                  </padding>
@@ -49,8 +49,9 @@
                  <Region prefHeight="10" />
 
                  <HBox spacing="10" alignment="CENTER">
-                     <Button fx:id="guardarBtn" text="Criar Perfil" onAction="#onGuardar" styleClass="button" prefWidth="150" />
+                     <Button fx:id="guardarBtn" text="Criar Perfil" onAction="#onGuardar" styleClass="button" />
                      <Button fx:id="cancelarBtn" text="Cancelar" onAction="#onCancelar" styleClass="button, button-secondary" visible="false" managed="false"/>
+                     <Button fx:id="eliminarBtn" text="Eliminar Perfil" onAction="#onEliminar" styleClass="button, button-critical" visible="false" managed="false"/>
                  </HBox>
 
                  <Label fx:id="erroLabel" styleClass="label-error" wrapText="true" textAlignment="CENTER" />

@@ -36,7 +36,7 @@ public class LoginController {
         for (UserProfile p : state.getProfiles()) {
             Button btn = new Button(p.getNome());
             btn.getStyleClass().add("button-item"); // Assume existence or reuse button style
-            btn.setMaxWidth(300);
+            btn.setMaxWidth(Double.MAX_VALUE);
             btn.setPrefHeight(50);
             btn.setOnAction(e -> selectProfile(p));
             profilesContainer.getChildren().add(btn);

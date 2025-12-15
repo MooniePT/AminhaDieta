@@ -1,0 +1,21 @@
+
+# Dependencies (Portable Java/Maven)
+.deps/
+
+# Build results
+target/
+build/
+bin/
+*.class
+
+# IDE settings
+.idea/
+*.iml
+.vscode/
+*.classpath
+*.project
+*.settings/
+
+# OS
+.DS_Store
+Thumbs.db

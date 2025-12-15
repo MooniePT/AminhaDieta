@@ -9,6 +9,13 @@
     <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
         <Tab text="Refeições">
             <VBox spacing="10" style="-fx-padding: 10;">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="searchField" promptText="Pesquisar alimento..." HBox.hgrow="ALWAYS"/>
+                    <DatePicker fx:id="startDatePicker" promptText="Data Início" prefWidth="120"/>
+                    <DatePicker fx:id="endDatePicker" promptText="Data Fim" prefWidth="120"/>
+                    <Button text="Atualizar" onAction="#onFilter" styleClass="button-action"/>
+                    <Button text="Exportar PDF" disable="true"/>
+                </HBox>
                 <TableView fx:id="mealsTable" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="dateCol" text="Data/Hora" prefWidth="150"/>

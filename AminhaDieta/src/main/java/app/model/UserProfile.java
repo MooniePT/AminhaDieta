@@ -31,10 +31,10 @@ public class UserProfile implements Serializable {
     }
 
     // dados específicos deste perfil
-    private final List<MealEntry> meals = new ArrayList<>();
-    private final List<WaterEntry> waters = new ArrayList<>();
-    private final List<WeightEntry> weights = new ArrayList<>();
-    private final List<Food> foods = new ArrayList<>();
+    private List<MealEntry> meals = new ArrayList<>();
+    private List<WaterEntry> waters = new ArrayList<>();
+    private List<WeightEntry> weights = new ArrayList<>();
+    private List<Food> foods = new ArrayList<>();
 
     public UserProfile(String nome, int idade, double pesoKg, double alturaCm, Gender gender) {
         this.nome = nome;
@@ -43,6 +43,8 @@ public class UserProfile implements Serializable {
         this.alturaCm = alturaCm;
         this.gender = gender;
     }
+
+    // ... (skipping to getters)
 
     // Calculators
     public double getBMI() {
@@ -168,18 +170,26 @@ public class UserProfile implements Serializable {
     }
 
     public List<MealEntry> getMeals() {
+        if (meals == null)
+            meals = new ArrayList<>();
         return meals;
     }
 
     public List<WaterEntry> getWaters() {
+        if (waters == null)
+            waters = new ArrayList<>();
         return waters;
     }
 
     public List<WeightEntry> getWeights() {
+        if (weights == null)
+            weights = new ArrayList<>();
         return weights;
     }
 
     public List<Food> getFoods() {
+        if (foods == null)
+            foods = new ArrayList<>();
         return foods;
     }
 }

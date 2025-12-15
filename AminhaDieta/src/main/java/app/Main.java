@@ -22,7 +22,20 @@ public class Main extends Application {
         sceneManager.showInitialScene();
 
         stage.setTitle("A Minha Dieta");
+
+        // Set application icon
+        try {
+            stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/icon.png")));
+        } catch (Exception e) {
+            System.err.println("Could not load icon: " + e.getMessage());
+        }
+
+        // Configure window size responsiveness
+        stage.setMinWidth(1024);
+        stage.setMinHeight(768);
+
         stage.show();
+        stage.setMaximized(true);
     }
 
     public static void main(String[] args) {

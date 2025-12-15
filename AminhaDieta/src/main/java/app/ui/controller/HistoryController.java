@@ -31,6 +31,14 @@ public class HistoryController {
     @FXML
     private LineChart<String, Number> historyChart;
 
+    // New Filters
+    @FXML
+    private javafx.scene.control.TextField searchField;
+    @FXML
+    private javafx.scene.control.DatePicker startDatePicker;
+    @FXML
+    private javafx.scene.control.DatePicker endDatePicker;
+
     private AppState state;
 
     public void init(SceneManager sceneManager, AppState state, DataStore store) {
@@ -47,13 +55,37 @@ public class HistoryController {
         calCol.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getCalories()));
     }
 
+    @FXML
+    private void onFilter() {
+        loadData();
+    }
+
     private void loadData() {
         UserProfile user = state.getActiveProfile();
         if (user == null)
             return;
 
-        // Table
+        String searchText = searchField.getText() == null ? "" : searchField.getText().toLowerCase().trim();
+        java.time.LocalDate startDate = startDatePicker.getValue();
+        java.time.LocalDate endDate = endDatePicker.getValue();
+
+        // Table Filter
         mealsTable.getItems().setAll(user.getMeals().stream()
+                .filter(m -> {
+                    // Search Text Filter
+                    if (!searchText.isEmpty() && !m.getDescription().toLowerCase().contains(searchText)) {
+                        return false;
+                    }
+                    // Date Range Filter
+                    java.time.LocalDate mealDate = m.getTimestamp().toLocalDate();
+                    if (startDate != null && mealDate.isBefore(startDate)) {
+                        return false;
+                    }
+                    if (endDate != null && mealDate.isAfter(endDate)) {
+                        return false;
+                    }
+                    return true;
+                })
                 .sorted(Comparator.comparing(MealEntry::getTimestamp).reversed())
                 .collect(Collectors.toList()));
 

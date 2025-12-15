@@ -4,8 +4,11 @@ import app.model.AppState;
 import app.model.UserProfile;
 import app.persistence.DataStore;
 import app.ui.SceneManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -43,6 +46,8 @@ public class HomeController {
     private Label bmiStatusLabel;
     @FXML
     private LineChart<String, Number> weightChart;
+    @FXML
+    private PieChart macroChart;
 
     private SceneManager sceneManager;
     private AppState state;
@@ -83,12 +88,34 @@ public class HomeController {
         updateMacro(carbLabel, carbBar, user.getCarbsConsumedToday(), user.getDailyCarbsGoalGrams(), "g");
         updateMacro(fatLabel, fatBar, user.getFatConsumedToday(), user.getDailyFatGoalGrams(), "g");
 
-        // Chart (Mock data for now or real if implemented)
+        // Weight Chart
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Peso");
         series.getData().add(new XYChart.Data<>("Hoje", user.getPesoKg()));
         weightChart.getData().clear();
         weightChart.getData().add(series);
+
+        // Macros Pie Chart
+        double p = user.getProteinConsumedToday();
+        double c = user.getCarbsConsumedToday();
+        double f = user.getFatConsumedToday();
+        double w = user.getWaterConsumedToday();
+
+        ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+        if (p > 0)
+            pieData.add(new PieChart.Data("Proteína", p));
+        if (c > 0)
+            pieData.add(new PieChart.Data("Hidratos", c));
+        if (f > 0)
+            pieData.add(new PieChart.Data("Gordura", f));
+        if (w > 0)
+            pieData.add(new PieChart.Data("Água (ml)", w));
+
+        if (pieData.isEmpty()) {
+            pieData.add(new PieChart.Data("Sem dados", 1));
+        }
+
+        macroChart.setData(pieData);
     }
 
     private void updateMacro(Label label, ProgressBar bar, double current, double goal, String unit) {

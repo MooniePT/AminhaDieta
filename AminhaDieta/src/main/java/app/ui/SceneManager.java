@@ -23,13 +23,12 @@ public class SceneManager {
     public void showRegister(boolean canCancel, app.model.UserProfile profileToEdit) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RegisterView.fxml"));
-            Scene scene = new Scene(loader.load(), 1280, 800);
-            scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            javafx.scene.Parent root = loader.load(); // Load root first
 
             RegisterController controller = loader.getController();
             controller.init(this, state, store, canCancel, profileToEdit);
 
-            stage.setScene(scene);
+            setSceneRoot(root);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -38,13 +37,12 @@ public class SceneManager {
     public void showLogin() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginView.fxml"));
-            Scene scene = new Scene(loader.load(), 1280, 800);
-            scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            javafx.scene.Parent root = loader.load();
 
             app.ui.controller.LoginController controller = loader.getController();
             controller.init(this, state, store);
 
-            stage.setScene(scene);
+            setSceneRoot(root);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -57,13 +55,12 @@ public class SceneManager {
         }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/DashboardView.fxml"));
-            Scene scene = new Scene(loader.load(), 1280, 800);
-            scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            javafx.scene.Parent root = loader.load();
 
             DashboardController controller = loader.getController();
             controller.init(this, state, store);
 
-            stage.setScene(scene);
+            setSceneRoot(root);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -74,6 +71,17 @@ public class SceneManager {
             showRegister(false, null);
         else
             showLogin(); // Always show login if profiles exist, don't auto-login
+    }
+
+    private void setSceneRoot(javafx.scene.Parent root) {
+        Scene scene = stage.getScene();
+        if (scene == null) {
+            scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            stage.setScene(scene);
+        } else {
+            scene.setRoot(root);
+        }
     }
 
 }

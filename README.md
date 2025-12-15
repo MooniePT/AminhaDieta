@@ -6,29 +6,18 @@ Projeto de Gestão de Dietas desenvolvido em Java (POO).
 
 Este guia explica passo-a-passo o que precisa de instalar para conseguir rodar este programa no seu computador (Windows), assumindo que não tem nada instalado.
 
-### 1. Pré-requisitos (Obrigatório)
+### 1. Como Correr (Modo Automático)
 
-Para o programa funcionar, precisa de instalar duas ferramentas: o **Java (JDK)** e o **Maven**.
+Este projeto inclui um sistema de instalação automática. **Não precisa de instalar nada manualmente!**
 
-#### A. Instalar o Java (JDK 21)
-O programa necessita do Java 21 para correr.
-1.  Aceda ao site oficial do [Adoptium Temurin 21](https://adoptium.net/temurin/releases/?version=21&os=windows&arch=x64).
-2.  Faça download do instalador **.msi**.
-3.  Execute o instalador.
-4.  **IMPORTANTE**: Durante a instalação, vai aparecer uma lista de funcionalidades. Clique no ícone "X" vermelho ao lado de **"Set JAVA_HOME variable"** e selecione *"Will be installed on local hard drive"*. Isto é essencial!
-5.  Avance e conclua a instalação.
+1.  **Baixe este projeto**: Clique em "Code" -> "Download ZIP" e extraia.
+2.  Abra a pasta.
+3.  **Clique duas vezes no ficheiro `run.bat`**.
 
-#### B. Instalar o Apache Maven
-O Maven serve para organizar o projeto e as suas bibliotecas.
-1.  Aceda ao site do [Apache Maven](https://maven.apache.org/download.cgi).
-2.  Em "Files", faça download do **"Binary zip archive"** (ex: `apache-maven-3.x.x-bin.zip`).
-3.  Extraia o conteúdo do ZIP para uma pasta simples, por exemplo: `C:\Maven`.
-4.  Agora precisa de "dizer" ao Windows onde está o Maven:
-    *   Prima a tecla `Windows` e pesquise por **"Editar as variáveis de ambiente do sistema"**. Abra essa opção.
-    *   Clique no botão **"Variáveis de Ambiente..."**.
-    *   Na lista de baixo (**Variáveis do sistema**), procure a linha que diz **Path** e clique em **Editar**.
-    *   Clique em **Novo** e escreva o caminho para a pasta `bin` do Maven que extraiu (Exemplo: `C:\Maven\apache-maven-3.9.6\bin`).
-    *   Clique em **OK** em todas as janelas para fechar.
+O script vai verificar automaticamente se o seu computador tem o Java e o Maven. Se não tiver, ele vai **baixar e configurar tudo sozinho** (numa pasta local, sem afetar o seu Windows) e abrir o programa.
+
+*Nota: A primeira execução pode demorar alguns minutos pois estará a descarregar as ferramentas necessárias.*
+
 
 ### 2. Como Executar o Programa
 

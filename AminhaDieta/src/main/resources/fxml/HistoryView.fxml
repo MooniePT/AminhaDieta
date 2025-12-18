@@ -4,7 +4,12 @@
 <?import javafx.scene.chart.*?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="app.ui.controller.HistoryController" spacing="20" styleClass="content-area">
-    <Label text="Histórico" styleClass="label-header"/>
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Histórico" styleClass="label-header"/>
+        <Region HBox.hgrow="ALWAYS" />
+        <TextField fx:id="searchField" promptText="Pesquisar refeições..." prefWidth="200" />
+        <Button text="Download PDF" onAction="#handleDownloadPdf" />
+    </HBox>
 
     <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
         <Tab text="Refeições">

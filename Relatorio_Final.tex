@@ -1,0 +1,308 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{titlesec}
+
+% Configuração de Margens
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=25mm,
+ top=25mm,
+ right=25mm,
+ bottom=25mm,
+}
+
+% Configuração de Código
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\title{
+    \vspace{3cm}
+    \Huge \textbf{A Minha Dieta} \\
+    \vspace{1cm}
+    \Large Relatório de Projeto Final \\
+    \large Programação Orientada a Objetos \\
+    \vspace{2cm}
+    \includegraphics[width=0.4\textwidth]{AminhaDieta/src/main/resources/app/ui/images/icon.png} % Placeholder se existir
+    \vspace{3cm}
+}
+
+\author{
+    \textbf{Equipa de Desenvolvimento:} \\
+    Carlos Farinha \\
+    Joao Rodrigues \\
+    Henrique Marques \\
+    André Schroder
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+\section*{Agradecimentos}
+Gostaríamos de expressar a nossa gratidão ao corpo docente da unidade curricular de Programação Orientada a Objetos por nos ter proporcionado os conhecimentos e o desafio necessários para a realização deste projeto. 
+Agradecemos também a todos os colegas que, direta ou indiretamente, contribuíram com sugestões e feedback durante o desenvolvimento da aplicação "A Minha Dieta".
+Por fim, um agradecimento especial a cada membro desta equipa pelo empenho, dedicação e espírito de colaboração demonstrados ao longo de todo o semestre.
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Introdução}
+\subsection{Contextualização}
+Na sociedade atual, a preocupação com a saúde e o bem-estar tem vindo a crescer exponencialmente. A gestão de uma dieta equilibrada, a prática regular de exercício físico e uma hidratação adequada são pilares fundamentais para um estilo de vida saudável. No entanto, o ritmo de vida acelerado torna difícil para muitas pessoas monitorizar estes aspetos de forma consistente.
+
+\subsection{Objetivos do Projeto}
+O projeto "A Minha Dieta" surge com o objetivo de colmatar esta necessidade, fornecendo uma aplicação desktop intuitiva e robusta que permite aos utilizadores:
+\begin{itemize}
+    \item Calcular as suas necessidades calóricas diárias com base em dados antropométricos.
+    \item Registar e monitorizar a ingestão de alimentos e macronutrientes.
+    \item Acompanhar o consumo diário de água.
+    \item Registar atividades físicas e contabilizar as calorias gastas.
+    \item Visualizar o progresso através de relatórios e gráficos detalhados.
+\end{itemize}
+
+\subsection{Estrutura do Relatório}
+Este relatório está organizado da seguinte forma:
+\begin{itemize}
+    \item \textbf{Cronograma}: Detalha as fases de desenvolvimento do projeto.
+    \item \textbf{Arquitetura}: Explica as decisões de design e o padrão MVC.
+    \item \textbf{Implementação}: Analisa em detalhe as classes e métodos desenvolvidos.
+    \item \textbf{Testes}: Descreve a estratégia de validação do software.
+    \item \textbf{Conclusão e Trabalho Futuro}: Reflete sobre o resultado final e aponta caminhos para evolução.
+\end{itemize}
+
+\newpage
+
+\section{Cronograma de Desenvolvimento}
+O desenvolvimento do projeto decorreu ao longo de várias semanas, seguindo uma metodologia ágil adaptada ao contexto académico.
+
+\subsection{Fase 1: Planeamento e Análise (Semana 1-2)}
+\begin{itemize}
+    \item Definição dos requisitos funcionais e não funcionais.
+    \item Esboço da interface gráfica (Mockups).
+    \item Modelação do domínio (Diagrama de Classes inicial).
+\end{itemize}
+
+\subsection{Fase 2: Implementação do Core (Semana 3-4)}
+\begin{itemize}
+    \item Criação da estrutura do projeto Maven.
+    \item Implementação das classes de modelo (\texttt{UserProfile}, \texttt{Food}, \texttt{MealEntry}).
+    \item Implementação do sistema de persistência de dados (\texttt{DataStore}).
+\end{itemize}
+
+\subsection{Fase 3: Interface Gráfica e Lógica (Semana 5-6)}
+\begin{itemize}
+    \item Desenvolvimento das vistas FXML (Login, Dashboard, Refeições).
+    \item Implementação dos Controladores JavaFX.
+    \item Integração da lógica de negócio com a interface.
+\end{itemize}
+
+\subsection{Fase 4: Refinamento e Testes (Semana 7-8)}
+\begin{itemize}
+    \item Melhorias estéticas (CSS, ícones).
+    \item Implementação de funcionalidades avançadas (Gráficos, Exportação PDF).
+    \item Testes manuais e correção de bugs.
+    \item Documentação e elaboração do relatório final.
+\end{itemize}
+
+\newpage
+
+\section{Arquitetura do Sistema}
+
+\subsection{Padrão MVC (Model-View-Controller)}
+A aplicação foi desenhada seguindo rigorosamente o padrão MVC, o que garante uma separação clara de responsabilidades e facilita a manutenção do código.
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{mvc_diagram.png} % Placeholder
+    \caption{Esquema da Arquitetura MVC}
+\end{figure}
+
+\subsubsection{Model (Modelo)}
+O Modelo representa os dados e a lógica de negócio da aplicação. É independente da interface gráfica. No nosso projeto, o pacote \texttt{app.model} contém classes como \texttt{UserProfile}, \texttt{MealEntry} e \texttt{AppState}. Estas classes encapsulam os dados e definem regras como o cálculo do IMC ou das calorias diárias.
+
+\subsubsection{View (Vista)}
+A Vista é responsável pela apresentação dos dados ao utilizador. Utilizamos a tecnologia \textbf{JavaFX}, definindo a estrutura visual em ficheiros \texttt{.fxml} e o estilo em ficheiros \texttt{.css}. As vistas não contêm lógica de negócio complexa.
+
+\subsubsection{Controller (Controlador)}
+O Controlador atua como intermediário entre a Vista e o Modelo. O pacote \texttt{app.ui.controller} contém classes que escutam eventos da interface (cliques em botões, input de texto), atualizam o Modelo e refletem as alterações de volta na Vista.
+
+\subsection{Persistência de Dados}
+Para garantir que os dados do utilizador não se perdem ao fechar a aplicação, implementámos um sistema de persistência baseado em \textbf{Serialização de Objetos Java}.
+A classe \texttt{DataStore} é responsável por gravar o objeto \texttt{AppState} (que contém toda a árvore de objetos da aplicação) num ficheiro binário local (\texttt{appstate.dat}). Esta abordagem foi escolhida pela sua simplicidade e eficiência para uma aplicação desktop monoposto.
+
+\newpage
+
+\section{Implementação Detalhada}
+Nesta secção, analisamos em detalhe os principais componentes do sistema.
+
+\subsection{Pacote \texttt{app.model}}
+
+\subsubsection{Classe \texttt{UserProfile}}
+Esta é a classe central do domínio. Representa um utilizador e agrega toda a sua informação.
+\begin{itemize}
+    \item \textbf{Atributos}: Nome, idade, peso, altura, género, nível de atividade.
+    \item \textbf{Listas}: Mantém listas de \texttt{MealEntry}, \texttt{WaterEntry}, \texttt{ExerciseEntry} e \texttt{WeightEntry}.
+    \item \textbf{Métodos Principais}:
+        \begin{itemize}
+            \item \texttt{calculateBMR()}: Calcula a Taxa Metabólica Basal usando a equação de Mifflin-St Jeor.
+            \item \texttt{getDailyCalorieGoal()}: Ajusta a TMB com base no nível de atividade física.
+        \end{itemize}
+\end{itemize}
+
+\begin{lstlisting}[language=Java, caption=Cálculo da TMB em UserProfile.java]
+public double calculateBMR() {
+    if (gender.equalsIgnoreCase("M")) {
+        return (10 * currentWeight) + (6.25 * height) - (5 * age) + 5;
+    } else {
+        return (10 * currentWeight) + (6.25 * height) - (5 * age) - 161;
+    }
+}
+\end{lstlisting}
+
+\subsubsection{Classe \texttt{AppState}}
+Esta classe funciona como o "Root" do grafo de objetos da aplicação. Contém a lista de todos os perfis registados e o ID do perfil atualmente ativo. É o objeto desta classe que é serializado para disco.
+
+\subsection{Pacote \texttt{app.ui.controller}}
+
+\subsubsection{Classe \texttt{DashboardController}}
+Este controlador gere a navegação principal. Utiliza um \texttt{StackPane} para carregar dinamicamente diferentes vistas (Home, Meals, History) sem fechar a janela principal. Mantém uma referência ao \texttt{SceneManager} para coordenar as trocas de ecrã.
+
+\subsubsection{Classe \texttt{HomeController}}
+Responsável pelo "Dashboard" do utilizador.
+\begin{itemize}
+    \item \textbf{Funcionalidade}: Ao inicializar, calcula o total de calorias consumidas no dia (iterando sobre a lista de \texttt{MealEntry} do dia atual) e atualiza as barras de progresso e os gráficos.
+    \item \textbf{Gráficos}: Utiliza as classes \texttt{PieChart} e \texttt{XYChart} do JavaFX para renderizar a distribuição de macros e o histórico de peso.
+\end{itemize}
+
+\begin{lstlisting}[language=Java, caption=Atualização da UI no HomeController.java]
+private void updateUI() {
+    UserProfile user = appState.getActiveProfile();
+    int caloriesConsumed = user.getCaloriesConsumedToday();
+    int calorieGoal = user.getDailyCalorieGoal();
+    
+    lblCalories.setText(caloriesConsumed + " / " + calorieGoal + " kcal");
+    progressCalories.setProgress((double) caloriesConsumed / calorieGoal);
+    // ... atualizacao de outros componentes
+}
+\end{lstlisting}
+
+\subsubsection{Classe \texttt{HistoryController}}
+Este controlador implementa a funcionalidade de relatórios.
+\begin{itemize}
+    \item \textbf{Tabelas}: Utiliza \texttt{TableView} para listar o histórico detalhado.
+    \item \textbf{Filtros}: Permite filtrar os dados por intervalo de datas.
+    \item \textbf{Exportação PDF}: Integra com a biblioteca OpenPDF para gerar um documento físico. O método de geração percorre os dados do utilizador e constrói um PDF com tabelas formatadas e cabeçalhos.
+\end{itemize}
+
+\subsection{Pacote \texttt{app.persistence}}
+
+\subsubsection{Classe \texttt{DataStore}}
+Encapsula a lógica de I/O (Input/Output).
+\begin{itemize}
+    \item \texttt{save(AppState state)}: Abre um \texttt{ObjectOutputStream} e escreve o objeto estado no ficheiro.
+    \item \texttt{load()}: Tenta ler o ficheiro. Se não existir, retorna um novo \texttt{AppState} vazio.
+\end{itemize}
+
+\newpage
+
+\section{Estratégia de Testes}
+A qualidade do software foi assegurada através de uma estratégia de testes mista.
+
+\subsection{Testes Unitários}
+Focaram-se na validação da lógica de negócio crítica, isolada da interface gráfica.
+\begin{itemize}
+    \item \textbf{Cálculo de Calorias}: Verificámos se a fórmula de Mifflin-St Jeor retorna os valores esperados para diferentes inputs (homem/mulher, diferentes pesos/alturas).
+    \item \textbf{Gestão de Listas}: Testámos a adição e remoção de refeições e exercícios nas listas do \texttt{UserProfile}, garantindo que os totais diários são atualizados corretamente.
+\end{itemize}
+
+\subsection{Testes de Integração}
+Verificaram a interação entre os componentes.
+\begin{itemize}
+    \item \textbf{Persistência}: Criámos um perfil, adicionámos dados, fechámos a aplicação e voltámos a abrir para garantir que os dados foram carregados corretamente do disco.
+    \item \textbf{Fluxo de Navegação}: Testámos a transição entre todos os ecrãs para garantir que não existem "becos sem saída" ou falhas na passagem de contexto.
+\end{itemize}
+
+\subsection{Testes de Sistema e Usabilidade}
+Realizados pela equipa e por utilizadores externos (colegas) para identificar problemas na interface, erros de texto ou fluxos confusos. O feedback recolhido resultou em melhorias significativas na disposição dos botões e na clareza das mensagens de erro.
+
+\newpage
+
+\section{Propostas de Trabalho Futuro}
+Apesar de a aplicação cumprir todos os requisitos iniciais, identificámos várias áreas para evolução futura:
+
+\begin{enumerate}
+    \item \textbf{Sincronização na Nuvem}:
+    Atualmente, os dados são locais. A implementação de uma API REST e uma base de dados remota permitiria ao utilizador aceder aos seus dados em qualquer computador.
+    
+    \item \textbf{Aplicação Móvel}:
+    O desenvolvimento de uma app para Android/iOS seria o complemento ideal, permitindo registar refeições "on-the-go".
+    
+    \item \textbf{Gamificação}:
+    Introduzir elementos de jogo, como medalhas (ex: "Semana Hidratada") e níveis, para aumentar a motivação e retenção dos utilizadores.
+    
+    \item \textbf{Leitura de Códigos de Barras}:
+    Integrar uma API como a OpenFoodFacts para permitir adicionar alimentos simplesmente lendo o código de barras da embalagem com a câmara.
+    
+    \item \textbf{Módulo de Receitas}:
+    Permitir que os utilizadores criem receitas complexas (agregando vários alimentos) e partilhem com a comunidade.
+\end{enumerate}
+
+\newpage
+
+\section{Conclusão}
+O projeto "A Minha Dieta" revelou-se um desafio enriquecedor e uma excelente oportunidade para consolidar os conhecimentos de Programação Orientada a Objetos.
+
+Conseguimos desenvolver uma aplicação funcional, robusta e com uma interface moderna, cumprindo todos os objetivos propostos. A adoção do padrão MVC foi crucial para manter o código organizado, especialmente à medida que o número de classes crescia. A implementação da persistência de dados e a geração de relatórios PDF acrescentaram valor real ao produto final.
+
+Sentimos que estamos agora muito mais preparados para enfrentar desafios de desenvolvimento de software mais complexos no futuro.
+
+\newpage
+
+\section{Bibliografia e Referências}
+
+\begin{itemize}
+    \item \textbf{Documentação JavaFX}: \url{https://openjfx.io/} - Fonte primária para componentes gráficos e CSS.
+    \item \textbf{OpenPDF Library}: \url{https://github.com/LibrePDF/OpenPDF} - Biblioteca utilizada para a geração de relatórios.
+    \item \textbf{Mifflin-St Jeor Equation}: Mifflin, M. D., et al. "A new predictive equation for resting energy expenditure in healthy individuals." \textit{The American Journal of Clinical Nutrition}, 1990.
+    \item \textbf{Ícones}: \url{https://www.flaticon.com/} - Recursos gráficos utilizados na UI.
+    \item \textbf{StackOverflow}: \url{https://stackoverflow.com/} - Resolução de dúvidas pontuais de implementação.
+    \item \textbf{Material de Apoio da UC}: Slides e exemplos fornecidos pelos docentes de POO.
+\end{itemize}
+
+\end{document}

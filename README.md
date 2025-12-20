@@ -1,46 +1,57 @@
 # A Minha Dieta
 
-Projeto de Gestão de Dietas desenvolvido em Java (POO).
+## Sobre o Projeto
+"A Minha Dieta" é uma aplicação desktop desenvolvida em Java (JavaFX) para ajudar os utilizadores a gerir a sua dieta, exercício físico e hidratação. A aplicação permite calcular metas calóricas e de macronutrientes personalizadas, registar refeições, monitorizar o consumo de água e visualizar o progresso através de gráficos intuitivos.
 
-## 🚀 Guia de Início Rápido (Para Utilizadores)
+## Funcionalidades em Detalhe
 
-Este guia explica passo-a-passo o que precisa de instalar para conseguir rodar este programa no seu computador (Windows), assumindo que não tem nada instalado.
+### 👤 Gestão de Perfil
+*   **Cálculo Automático**: Ao inserir idade, peso, altura e nível de atividade, a aplicação calcula automaticamente a sua Taxa Metabólica Basal (TMB) e necessidades calóricas diárias usando a equação de Mifflin-St Jeor.
+*   **Múltiplos Utilizadores**: Suporte para vários perfis na mesma aplicação, ideal para famílias.
 
-### 1. Como Correr (Modo Automático)
+### 🍎 Diário Alimentar
+*   **Base de Dados**: Inclui uma lista de alimentos comuns com informação nutricional.
+*   **Adição Rápida**: Botões de atalho para alimentos frequentes (Arroz, Massa, Batata, Leite).
+*   **Personalização**: Possibilidade de adicionar novos alimentos à base de dados.
 
-Este projeto inclui um sistema de instalação automática. **Não precisa de instalar nada manualmente!**
+### 💧 Monitorização de Hidratação
+*   **Metas Inteligentes**: A meta de água é ajustada com base no seu peso.
+*   **Registo Fácil**: Adicione copos de 250ml ou garrafas de 500ml com um clique.
 
-1.  **Baixe este projeto**: Clique em "Code" -> "Download ZIP" e extraia.
-2.  Abra a pasta.
-3.  **Clique duas vezes no ficheiro `run.bat`**.
+### 📊 Relatórios e Análise
+*   **Gráficos**: Visualize a distribuição de macronutrientes (Proteína, Carbohidratos, Gordura) e a evolução do peso.
+*   **Exportação PDF**: Gere relatórios detalhados para imprimir ou partilhar com o seu nutricionista.
 
-O script vai verificar automaticamente se o seu computador tem o Java e o Maven. Se não tiver, ele vai **baixar e configurar tudo sozinho** (numa pasta local, sem afetar o seu Windows) e abrir o programa.
+## Como Contribuir
+Contribuições são bem-vindas! Se quiser melhorar este projeto:
+1.  Faça um **Fork** do repositório.
+2.  Crie um **Branch** para a sua funcionalidade (`git checkout -b feature/nova-funcionalidade`).
+3.  Faça **Commit** das suas alterações (`git commit -m 'Adicionei nova funcionalidade'`).
+4.  Faça **Push** para o Branch (`git push origin feature/nova-funcionalidade`).
+5.  Abra um **Pull Request**.
 
-*Nota: A primeira execução pode demorar alguns minutos pois estará a descarregar as ferramentas necessárias.*
+Consulte o [Manual Git](GIT_MANUAL.md) para ajuda com os comandos.
 
+## Requisitos do Sistema
+- Java Development Kit (JDK) 17 ou superior.
+- Maven 3.6 ou superior.
 
-### 2. Como Executar o Programa
+## Como Executar
+1. **Compilar o projeto:**
+   ```bash
+   mvn clean compile
+   ```
+2. **Executar a aplicação:**
+   ```bash
+   mvn javafx:run
+   ```
 
-Depois de ter o Java e o Maven instalados:
+## Estrutura do Projeto
+- `src/main/java/app`: Código fonte da aplicação.
+    - `model`: Classes de domínio (UserProfile, Food, MealEntry, etc.).
+    - `ui`: Controladores e gestor de cenas (JavaFX).
+    - `persistence`: Gestão de persistência de dados.
+- `src/main/resources`: Recursos (FXML, CSS, Imagens).
 
-1.  **Baixe este projeto**: Clique no botão verde "Code" no GitHub e escolha "Download ZIP". Extraia para uma pasta (ex: Documentos).
-2.  Abra a pasta do projeto.
-3.  Encontre o ficheiro **`run.bat`** e clique duas vezes nele.
-4.  Uma janela preta vai abrir. Se for a primeira vez, vai demorar um pouco a "baixar a internet" (bibliotecas necessárias).
-5.  A aplicação "A Minha Dieta" deverá abrir automaticamente!
-
----
-
-## 🛠️ Para Programadores (Desenvolvimento)
-*   **Java Version**: 21
-*   **JavaFX Version**: 21.0.4
-*   **Build Tool**: Maven
-
-Comandos úteis:
-```bash
-# Executar a aplicação
-mvn javafx:run
-
-# Limpar e compilar
-mvn clean package
-```
+## Autoria
+Desenvolvido com dedicação para auxiliar na gestão de um estilo de vida saudável.

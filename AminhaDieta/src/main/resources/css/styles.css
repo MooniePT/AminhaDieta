@@ -1,32 +1,27 @@
 /* Global Styles */
 .root {
-    -fx-font-family: 'Open Sans', 'Segoe UI', sans-serif;
-    -fx-background-color: #F4F6F8;
+    -fx-font-family: 'Segoe UI', 'Open Sans', sans-serif;
+    -fx-background-color: #F0F2F5;
+    /* Softer gray */
     -fx-font-size: 14px;
 }
 
-/* Constants (simulated) */
-/* Primary Green: #4CAF50 */
-/* Dark Green: #388E3C */
-/* Accent: #81C784 */
-/* Text Color: #2D3436 */
-/* Card Bg: #FFFFFF */
-
 /* Typography */
 .label {
-    -fx-text-fill: #2D3436;
+    -fx-text-fill: #1C1E21;
 }
 
 .label-header {
-    -fx-font-size: 24px;
+    -fx-font-size: 26px;
     -fx-font-weight: bold;
-    -fx-text-fill: #388E3C;
+    -fx-text-fill: #2E7D32;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
 }
 
 .label-subheader {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #4CAF50;
+    -fx-text-fill: #388E3C;
 }
 
 .label-error {
@@ -34,58 +29,63 @@
     -fx-font-weight: bold;
 }
 
+.label-data-small {
+    -fx-font-size: 12px;
+    -fx-text-fill: #606770;
+}
+
 /* Buttons */
 .button {
-    -fx-background-color: linear-gradient(to bottom, #4CAF50, #43A047);
+    -fx-background-color: linear-gradient(to bottom right, #4CAF50, #2E7D32);
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 14px;
     -fx-background-radius: 8;
     -fx-padding: 10 20;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
     -fx-transition: all 0.2s ease-in-out;
 }
 
 .button:hover {
-    -fx-background-color: linear-gradient(to bottom, #66BB6A, #4CAF50);
+    -fx-background-color: linear-gradient(to bottom right, #66BB6A, #388E3C);
     -fx-scale-x: 1.02;
     -fx-scale-y: 1.02;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 4);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0, 0, 4);
 }
 
 .button:pressed {
-    -fx-background-color: #2E7D32;
+    -fx-background-color: #1B5E20;
     -fx-scale-x: 0.98;
     -fx-scale-y: 0.98;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
 }
 
 .button-secondary {
     -fx-background-color: white;
-    -fx-text-fill: #546E7A;
+    -fx-text-fill: #455A64;
     -fx-border-color: #CFD8DC;
     -fx-border-radius: 8;
     -fx-border-width: 1px;
 }
 
 .button-secondary:hover {
-    -fx-background-color: #ECEFF1;
-    -fx-text-fill: #37474F;
+    -fx-background-color: #F5F5F5;
+    -fx-text-fill: #263238;
     -fx-border-color: #B0BEC5;
 }
 
 .button-critical {
-    -fx-background-color: linear-gradient(to bottom, #e53935, #c62828);
+    -fx-background-color: linear-gradient(to bottom right, #EF5350, #C62828);
     -fx-text-fill: white;
 }
 
 .button-critical:hover {
-    -fx-background-color: linear-gradient(to bottom, #ef5350, #d32f2f);
+    -fx-background-color: linear-gradient(to bottom right, #E57373, #D32F2F);
 }
 
 .button-critical:pressed {
-    -fx-background-color: #b71c1c;
+    -fx-background-color: #B71C1C;
 }
 
 /* Profile Selection / List Item Button */
@@ -94,18 +94,20 @@
     -fx-text-fill: #37474F;
     -fx-font-size: 16px;
     -fx-background-radius: 12;
-    -fx-border-color: #ECEFF1;
+    -fx-border-color: transparent;
     -fx-border-radius: 12;
     -fx-padding: 15 25;
     -fx-alignment: CENTER_LEFT;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 5, 0, 0, 2);
 }
 
 .button-item:hover {
-    -fx-background-color: #F1F8E9; /* Light Green Tint */
+    -fx-background-color: #F1F8E9;
     -fx-border-color: #C5E1A5;
     -fx-text-fill: #2E7D32;
     -fx-scale-x: 1.01;
     -fx-scale-y: 1.01;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0, 0, 3);
 }
 
 /* Text Fields */
@@ -115,25 +117,28 @@
     -fx-border-radius: 8;
     -fx-background-radius: 8;
     -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 2, 0, 0, 1);
 }
 
 .text-field:focused {
     -fx-border-color: #4CAF50;
     -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.2), 5, 0, 0, 0);
 }
 
-/* Base Componenets */
+/* Base Components */
 .card {
     -fx-background-color: white;
     -fx-background-radius: 16;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);
-    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 10, 0, 0, 4);
+    -fx-padding: 25;
 }
 
 /* Sidebar (Dashboard) */
 .sidebar {
-    -fx-background-color: linear-gradient(to bottom, #2E7D32, #4CAF50);
+    -fx-background-color: linear-gradient(to bottom, #2E7D32, #43A047);
     -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 0);
 }
 
 .sidebar .label {
@@ -142,17 +147,69 @@
 
 .sidebar .button {
     -fx-background-color: transparent;
-    -fx-border-color: rgba(255,255,255,0.3);
+    -fx-border-color: rgba(255, 255, 255, 0.2);
     -fx-border-radius: 8;
     -fx-text-fill: white;
     -fx-alignment: BASELINE_LEFT;
+    -fx-font-weight: normal;
 }
 
 .sidebar .button:hover {
-    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+    -fx-font-weight: bold;
 }
 
 .content-area {
     -fx-padding: 30;
-    -fx-spacing: 20;
+    -fx-spacing: 25;
+}
+
+/* Charts */
+.chart {
+    -fx-padding: 10px;
+}
+
+.chart-content {
+    -fx-padding: 10px;
+}
+
+.chart-title {
+    -fx-text-fill: #2E7D32;
+    -fx-font-size: 1.2em;
+    -fx-font-weight: bold;
+}
+
+.axis-label {
+    -fx-text-fill: #757575;
+}
+
+.chart-pie-label {
+    -fx-fill: #424242;
+    -fx-font-size: 11px;
+}
+
+.default-color0.chart-pie {
+    -fx-pie-color: #4CAF50;
+}
+
+/* Protein */
+.default-color1.chart-pie {
+    -fx-pie-color: #FF9800;
+}
+
+/* Carbs */
+.default-color2.chart-pie {
+    -fx-pie-color: #F44336;
+}
+
+/* Fat */
+.default-color3.chart-pie {
+    -fx-pie-color: #03A9F4;
+}
+
+/* Water */
+
+.default-color0.chart-bar {
+    -fx-bar-fill: #2196F3;
 }

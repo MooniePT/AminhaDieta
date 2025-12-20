@@ -8,6 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controlador responsável pelo ecrã de login e seleção de perfil.
+ */
 public class LoginController {
 
     @FXML
@@ -28,14 +31,15 @@ public class LoginController {
         profilesContainer.getChildren().clear();
 
         if (state.getProfiles().isEmpty()) {
-            // Should usually not happen here if we redirect empty state to Register, but
-            // safe to handle
+            // Normalmente não acontece aqui se redirecionarmos estado vazio para Registo,
+            // mas
+            // seguro de lidar
             return;
         }
 
         for (UserProfile p : state.getProfiles()) {
             Button btn = new Button(p.getNome());
-            btn.getStyleClass().add("button-item"); // Assume existence or reuse button style
+            btn.getStyleClass().add("button-item"); // Assume existência ou reutiliza estilo de botão
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.setPrefHeight(50);
             btn.setOnAction(e -> selectProfile(p));
@@ -51,13 +55,14 @@ public class LoginController {
 
     @FXML
     private void onNewProfile() {
-        sceneManager.showRegister(true, null); // Can cancel back to login? Actually if no profiles, can't cancel.
-        // Logic: if coming from Login, 'canCancel' means "can go back to login".
-        // Existing RegisterController 'onCancelar' goes to Dashboard.
-        // We might need to adjust RegisterController/SceneManager to handle "Cancel to
-        // Login" vs "Cancel to Dashboard".
-        // For now, let's assume 'true' goes to Dashboard, but if we are not logged in,
-        // Dashboard redirects to Login?
-        // Let's check SceneManager logic.
+        sceneManager.showRegister(true, null); // Pode cancelar de volta ao login?
+        // Lógica: se vier do Login, 'canCancel' significa "pode voltar ao login".
+        // RegisterController existente 'onCancelar' vai para o Dashboard.
+        // Podemos precisar de ajustar RegisterController/SceneManager para lidar com
+        // "Cancelar para Login" vs "Cancelar para Dashboard".
+        // Por agora, assumimos que 'true' vai para Dashboard, mas se não estivermos
+        // logados,
+        // Dashboard redireciona para Login?
+        // Vamos verificar a lógica do SceneManager.
     }
 }

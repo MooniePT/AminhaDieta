@@ -21,6 +21,16 @@
                 <VBox spacing="10" styleClass="card">
                     <Label text="Adicionar Refeição" styleClass="label-subheader"/>
                     
+                    <Label text="Adicionar Rápido:" styleClass="label-subheader"/>
+                    <HBox spacing="10">
+                        <Button text="Arroz" onAction="#onAddRice" styleClass="button-small"/>
+                        <Button text="Massa" onAction="#onAddPasta" styleClass="button-small"/>
+                        <Button text="Batata" onAction="#onAddPotato" styleClass="button-small"/>
+                        <Button text="Leite" onAction="#onAddMilk" styleClass="button-small"/>
+                        <Button text="Ovos" onAction="#onAddEggs" styleClass="button-small"/>
+                        <Button text="Pão" onAction="#onAddBread" styleClass="button-small"/>
+                    </HBox>
+
                     <HBox spacing="10" alignment="CENTER_LEFT">
                         <Label text="Pré-definidos:"/>
                         <ComboBox fx:id="foodSelector" promptText="Selecionar Alimento..." onAction="#onFoodSelected" prefWidth="200"/>

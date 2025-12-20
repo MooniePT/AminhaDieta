@@ -8,11 +8,16 @@ import javafx.stage.Stage;
 
 import java.nio.file.Path;
 
+/**
+ * Classe principal da aplicação JavaFX.
+ * Configura o armazenamento de dados e inicia a interface gráfica.
+ */
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        // ficheiro de dados (fica dentro do teu projeto / pasta do utilizador)
+        // Ficheiro de dados (localizado na pasta 'data' dentro do diretório de
+        // execução)
         Path dataPath = Path.of("data", "appstate.dat");
 
         DataStore store = new DataStore(dataPath);
@@ -22,6 +27,7 @@ public class Main extends Application {
         sceneManager.showInitialScene();
 
         stage.setTitle("A Minha Dieta");
+        stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/icon.png")));
         stage.show();
     }
 

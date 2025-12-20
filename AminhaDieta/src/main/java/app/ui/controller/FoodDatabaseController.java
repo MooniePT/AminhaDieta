@@ -12,6 +12,10 @@ import javafx.scene.control.TextField;
 
 import java.util.Comparator;
 
+/**
+ * Controlador responsável pela gestão da base de dados de alimentos.
+ * Permite adicionar novos alimentos e listar os existentes.
+ */
 public class FoodDatabaseController {
 
     @FXML

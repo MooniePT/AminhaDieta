@@ -3,6 +3,9 @@ package app.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * Representa um registo de peso do utilizador numa determinada data.
+ */
 public class WeightEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 

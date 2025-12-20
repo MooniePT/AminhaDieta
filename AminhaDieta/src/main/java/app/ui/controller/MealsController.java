@@ -55,6 +55,7 @@ public class MealsController {
         // Actually, let's pass data to the embedded controller manually if needed.
         if (foodDatabaseController != null) {
             foodDatabaseController.init(sceneManager, state, store);
+            foodDatabaseController.setOnFoodAddedListener(this::updateList);
         }
 
         setupFoodSelector();

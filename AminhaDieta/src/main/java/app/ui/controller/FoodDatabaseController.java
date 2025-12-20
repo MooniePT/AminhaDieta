@@ -32,6 +32,11 @@ public class FoodDatabaseController {
 
     private AppState state;
     private DataStore store;
+    private Runnable onFoodAddedListener;
+
+    public void setOnFoodAddedListener(Runnable listener) {
+        this.onFoodAddedListener = listener;
+    }
 
     public void init(SceneManager sceneManager, AppState state, DataStore store) {
         this.state = state;
@@ -58,6 +63,10 @@ public class FoodDatabaseController {
             if (user != null) {
                 user.getFoods().add(new Food(name, cal, prot, carb, fat));
                 store.save(state);
+
+                if (onFoodAddedListener != null) {
+                    onFoodAddedListener.run();
+                }
 
                 clearFields();
                 updateList();

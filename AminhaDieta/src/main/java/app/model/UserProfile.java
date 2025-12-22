@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Representa o perfil de um utilizador, contendo dados pessoais, histórico de
+ * refeições, exercícios, peso e água.
+ */
 public class UserProfile implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -14,7 +18,8 @@ public class UserProfile implements Serializable {
     private int idade;
     private double pesoKg;
     private double alturaCm;
-    private Gender gender; // Adicionado género
+    private Gender gender; // Género do utilizador
+    private PhysicalActivityLevel physicalActivityLevel; // Nível de atividade física
 
     public enum Gender {
         MALE("Masculino"), FEMALE("Feminino");
@@ -30,23 +35,49 @@ public class UserProfile implements Serializable {
         }
     }
 
-    // dados específicos deste perfil
-    private List<MealEntry> meals = new ArrayList<>();
-    private List<WaterEntry> waters = new ArrayList<>();
-    private List<WeightEntry> weights = new ArrayList<>();
-    private List<Food> foods = new ArrayList<>();
+    public enum PhysicalActivityLevel {
+        SEDENTARY("Sedentário", 1.2),
+        LIGHTLY_ACTIVE("Levemente Ativo", 1.375),
+        MODERATELY_ACTIVE("Moderadamente Ativo", 1.55),
+        VERY_ACTIVE("Muito Ativo", 1.725),
+        EXTRA_ACTIVE("Extremamente Ativo", 1.9);
 
-    public UserProfile(String nome, int idade, double pesoKg, double alturaCm, Gender gender) {
+        private final String label;
+        private final double multiplier;
+
+        PhysicalActivityLevel(String label, double multiplier) {
+            this.label = label;
+            this.multiplier = multiplier;
+        }
+
+        public double getMultiplier() {
+            return multiplier;
+        }
+
+        @Override
+        public String toString() {
+            return label;
+        }
+    }
+
+    // Dados específicos deste perfil (Listas de registos)
+    private final List<MealEntry> meals = new ArrayList<>();
+    private final List<WaterEntry> waters = new ArrayList<>();
+    private final List<WeightEntry> weights = new ArrayList<>();
+    private final List<Food> foods = new ArrayList<>();
+    private List<ExerciseEntry> exercises = new ArrayList<>();
+
+    public UserProfile(String nome, int idade, double pesoKg, double alturaCm, Gender gender,
+            PhysicalActivityLevel physicalActivityLevel) {
         this.nome = nome;
         this.idade = idade;
         this.pesoKg = pesoKg;
         this.alturaCm = alturaCm;
         this.gender = gender;
+        this.physicalActivityLevel = physicalActivityLevel;
     }
 
-    // ... (skipping to getters)
-
-    // Calculators
+    // Calculadoras e Métodos Utilitários
     public double getBMI() {
         if (alturaCm <= 0)
             return 0;
@@ -55,22 +86,23 @@ public class UserProfile implements Serializable {
     }
 
     public int getDailyCalorieGoal() {
-        // Mifflin-St Jeor Equation
-        // Sedentary factor 1.2 assumed for now
+        // Equação de Mifflin-St Jeor
+        // Fator base assumido se não houver nível de atividade definido
         double bmr = (10 * pesoKg) + (6.25 * alturaCm) - (5 * idade);
         if (gender == Gender.MALE)
             bmr += 5;
         else
             bmr -= 161;
 
-        return (int) (bmr * 1.2);
+        double multiplier = (physicalActivityLevel != null) ? physicalActivityLevel.getMultiplier() : 1.2;
+        return (int) (bmr * multiplier);
     }
 
     public double getDailyWaterGoalMl() {
         return 35 * pesoKg;
     }
 
-    // Progress
+    // Progresso Diário
     public int getCaloriesConsumedToday() {
         java.time.LocalDate today = java.time.LocalDate.now();
         return meals.stream()
@@ -103,8 +135,8 @@ public class UserProfile implements Serializable {
                 .sum();
     }
 
-    // Macro Targets (50% Carbs, 30% Fat, 20% Protein)
-    // Carbs/Protein = 4kcal/g, Fat = 9kcal/g
+    // Metas de Macros (50% Hidratos, 30% Gordura, 20% Proteína)
+    // Hidratos/Proteína = 4kcal/g, Gordura = 9kcal/g
     public double getDailyProteinGoalGrams() {
         return (getDailyCalorieGoal() * 0.20) / 4.0;
     }
@@ -169,27 +201,42 @@ public class UserProfile implements Serializable {
         this.gender = gender;
     }
 
+    public PhysicalActivityLevel getPhysicalActivityLevel() {
+        return physicalActivityLevel;
+    }
+
+    public void setPhysicalActivityLevel(PhysicalActivityLevel physicalActivityLevel) {
+        this.physicalActivityLevel = physicalActivityLevel;
+    }
+
+    public List<ExerciseEntry> getExercises() {
+        if (exercises == null) {
+            exercises = new ArrayList<>();
+        }
+        return exercises;
+    }
+
     public List<MealEntry> getMeals() {
         if (meals == null)
-            meals = new ArrayList<>();
+            return new ArrayList<>();
         return meals;
     }
 
     public List<WaterEntry> getWaters() {
         if (waters == null)
-            waters = new ArrayList<>();
+            return new ArrayList<>();
         return waters;
     }
 
     public List<WeightEntry> getWeights() {
         if (weights == null)
-            weights = new ArrayList<>();
+            return new ArrayList<>();
         return weights;
     }
 
     public List<Food> getFoods() {
         if (foods == null)
-            foods = new ArrayList<>();
+            return new ArrayList<>();
         return foods;
     }
 }

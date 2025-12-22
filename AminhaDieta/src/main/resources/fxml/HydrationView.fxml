@@ -18,6 +18,7 @@
     <HBox spacing="10" alignment="CENTER">
         <TextField fx:id="customField" promptText="Outro (ml)" prefWidth="100" />
         <Button text="Adicionar" onAction="#addCustom" styleClass="button"/>
+        <Button text="Remover Último" onAction="#removeLast" styleClass="button, button-secondary"/>
     </HBox>
     <Label fx:id="statusLabel" text="" styleClass="label-error" />
 </VBox>

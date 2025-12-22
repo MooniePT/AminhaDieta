@@ -27,6 +27,11 @@
                  </VBox>
 
                  <VBox spacing="10" alignment="CENTER_LEFT">
+                     <Label text="Nível de Atividade" style="-fx-font-weight: bold;"/>
+                     <ComboBox fx:id="atividadeCombo" promptText="Selecione o nível de atividade" maxWidth="Infinity" />
+                 </VBox>
+
+                 <VBox spacing="10" alignment="CENTER_LEFT">
                      <Label text="Nome" style="-fx-font-weight: bold;"/>
                      <TextField fx:id="nomeField" promptText="Ex: Carlos" styleClass="text-field" />
                  </VBox>

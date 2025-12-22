@@ -4,15 +4,23 @@ import app.model.AppState;
 import app.model.UserProfile;
 import app.persistence.DataStore;
 import app.ui.SceneManager;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.stream.Collectors;
+import app.model.ExerciseEntry;
 
+/**
+ * Controlador da página inicial (Dashboard).
+ * Exibe resumos diários, gráficos e estatísticas do utilizador.
+ */
 public class HomeController {
 
     @FXML
@@ -47,7 +55,9 @@ public class HomeController {
     @FXML
     private LineChart<String, Number> weightChart;
     @FXML
-    private PieChart macroChart;
+    private PieChart consumptionPieChart;
+    @FXML
+    private BarChart<String, Number> exerciseChart;
 
     private SceneManager sceneManager;
     private AppState state;
@@ -71,13 +81,13 @@ public class HomeController {
         bmiLabel.setText(String.format("%.1f", bmi));
         bmiStatusLabel.setText(getBMIStatus(bmi));
 
-        // Calories
+        // Calorias
         int consumed = user.getCaloriesConsumedToday();
         int goal = user.getDailyCalorieGoal();
         caloriesLabel.setText(consumed + " / " + goal);
         caloriesBar.setProgress(goal > 0 ? (double) consumed / goal : 0);
 
-        // Water
+        // Água
         double waterL = user.getWaterConsumedToday() / 1000.0;
         double waterGoalL = user.getDailyWaterGoalMl() / 1000.0;
         waterLabel.setText(String.format("%.1f L / %.1f L", waterL, waterGoalL));
@@ -88,34 +98,42 @@ public class HomeController {
         updateMacro(carbLabel, carbBar, user.getCarbsConsumedToday(), user.getDailyCarbsGoalGrams(), "g");
         updateMacro(fatLabel, fatBar, user.getFatConsumedToday(), user.getDailyFatGoalGrams(), "g");
 
-        // Weight Chart
+        // Gráfico (Dados simulados ou reais se implementado)
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Peso");
         series.getData().add(new XYChart.Data<>("Hoje", user.getPesoKg()));
         weightChart.getData().clear();
         weightChart.getData().add(series);
 
-        // Macros Pie Chart
-        double p = user.getProteinConsumedToday();
-        double c = user.getCarbsConsumedToday();
-        double f = user.getFatConsumedToday();
-        double w = user.getWaterConsumedToday();
+        // Gráfico Circular (Pie Chart)
+        consumptionPieChart.getData().clear();
+        consumptionPieChart.getData().addAll(
+                new PieChart.Data("Proteína (" + (int) user.getProteinConsumedToday() + "g)",
+                        user.getProteinConsumedToday()),
+                new PieChart.Data("Hidratos (" + (int) user.getCarbsConsumedToday() + "g)",
+                        user.getCarbsConsumedToday()),
+                new PieChart.Data("Gordura (" + (int) user.getFatConsumedToday() + "g)", user.getFatConsumedToday()),
+                new PieChart.Data("Água (" + (int) (user.getWaterConsumedToday()) + "ml)",
+                        user.getWaterConsumedToday()));
 
-        ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
-        if (p > 0)
-            pieData.add(new PieChart.Data("Proteína", p));
-        if (c > 0)
-            pieData.add(new PieChart.Data("Hidratos", c));
-        if (f > 0)
-            pieData.add(new PieChart.Data("Gordura", f));
-        if (w > 0)
-            pieData.add(new PieChart.Data("Água (ml)", w));
+        // Gráfico de Exercício
+        exerciseChart.getData().clear();
+        XYChart.Series<String, Number> exerciseSeries = new XYChart.Series<>();
+        exerciseSeries.setName("Calorias Queimadas");
 
-        if (pieData.isEmpty()) {
-            pieData.add(new PieChart.Data("Sem dados", 1));
+        Map<LocalDate, Integer> exerciseMap = user.getExercises().stream()
+                .collect(Collectors.groupingBy(
+                        e -> e.getTimestamp().toLocalDate(),
+                        Collectors.summingInt(ExerciseEntry::getCaloriesBurned)));
+
+        LocalDate today = LocalDate.now();
+        for (int i = 6; i >= 0; i--) {
+            LocalDate date = today.minusDays(i);
+            int calories = exerciseMap.getOrDefault(date, 0);
+            exerciseSeries.getData()
+                    .add(new XYChart.Data<>(date.format(DateTimeFormatter.ofPattern("dd/MM")), calories));
         }
-
-        macroChart.setData(pieData);
+        exerciseChart.getData().add(exerciseSeries);
     }
 
     private void updateMacro(Label label, ProgressBar bar, double current, double goal, String unit) {

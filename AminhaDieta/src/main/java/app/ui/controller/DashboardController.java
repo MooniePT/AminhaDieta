@@ -6,6 +6,10 @@ import app.ui.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
+/**
+ * Controlador principal do Dashboard, responsável pela navegação entre as
+ * diferentes vistas.
+ */
 public class DashboardController {
 
     @FXML
@@ -20,7 +24,7 @@ public class DashboardController {
         this.state = state;
         this.store = store;
 
-        onHome(); // Load home by default
+        onHome(); // Carrega a vista inicial por defeito
     }
 
     @FXML
@@ -36,6 +40,11 @@ public class DashboardController {
     @FXML
     private void onHydration() {
         loadView("/fxml/HydrationView.fxml");
+    }
+
+    @FXML
+    private void onExercise() {
+        loadView("/fxml/ExerciseView.fxml");
     }
 
     @FXML
@@ -55,7 +64,7 @@ public class DashboardController {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource(fxmlPath));
             javafx.scene.Parent view = loader.load();
 
-            // Inject dependencies manually based on controller type
+            // Injetar dependências manualmente com base no tipo de controlador
             Object controller = loader.getController();
             if (controller instanceof HomeController) {
                 ((HomeController) controller).init(sceneManager, state, store);
@@ -65,6 +74,8 @@ public class DashboardController {
                 ((HydrationController) controller).init(sceneManager, state, store);
             } else if (controller instanceof HistoryController) {
                 ((HistoryController) controller).init(sceneManager, state, store);
+            } else if (controller instanceof ExerciseController) {
+                ((ExerciseController) controller).init(sceneManager, state, store);
             }
 
             contentArea.getChildren().setAll(view);

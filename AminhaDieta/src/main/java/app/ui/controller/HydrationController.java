@@ -10,6 +10,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 
+/**
+ * Controlador responsável pela gestão do consumo diário de água.
+ */
 public class HydrationController {
 
     @FXML
@@ -63,6 +66,18 @@ public class HydrationController {
             statusLabel.setText("");
         } catch (NumberFormatException e) {
             statusLabel.setText("Valor inválido.");
+        }
+    }
+
+    @FXML
+    private void removeLast() {
+        UserProfile user = state.getActiveProfile();
+        if (user != null && !user.getWaters().isEmpty()) {
+            int size = user.getWaters().size();
+            user.getWaters().remove(size - 1);
+            store.save(state);
+            updateView();
+            statusLabel.setText("Último registo removido.");
         }
     }
 

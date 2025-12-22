@@ -12,7 +12,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.ComboBox;
 
+/**
+ * Controlador responsável pelo registo e edição de perfis de utilizador.
+ */
 public class RegisterController {
 
     @FXML
@@ -35,6 +39,9 @@ public class RegisterController {
     private ToggleGroup genderGroup;
 
     @FXML
+    private ComboBox<UserProfile.PhysicalActivityLevel> atividadeCombo;
+
+    @FXML
     private Button guardarBtn;
     @FXML
     private Button cancelarBtn;
@@ -54,13 +61,16 @@ public class RegisterController {
         this.store = store;
         this.profileToEdit = profileToEdit;
 
-        // Setup ToggleGroup
+        // Configurar ToggleGroup
         genderGroup = new ToggleGroup();
         masculinoRadio.setToggleGroup(genderGroup);
         femininoRadio.setToggleGroup(genderGroup);
         masculinoRadio.setUserData(UserProfile.Gender.MALE);
         femininoRadio.setUserData(UserProfile.Gender.FEMALE);
-        masculinoRadio.setSelected(true); // Default
+        masculinoRadio.setSelected(true); // Padrão
+
+        atividadeCombo.getItems().setAll(UserProfile.PhysicalActivityLevel.values());
+        atividadeCombo.getSelectionModel().select(UserProfile.PhysicalActivityLevel.SEDENTARY);
 
         // Se já existe user => modo editar (pré-preencher)
         if (profileToEdit != null) {
@@ -76,6 +86,9 @@ public class RegisterController {
                 masculinoRadio.setSelected(true);
             else if (profileToEdit.getGender() == UserProfile.Gender.FEMALE)
                 femininoRadio.setSelected(true);
+
+            if (profileToEdit.getPhysicalActivityLevel() != null)
+                atividadeCombo.getSelectionModel().select(profileToEdit.getPhysicalActivityLevel());
 
             eliminarBtn.setVisible(true);
             eliminarBtn.setManaged(true);
@@ -100,6 +113,7 @@ public class RegisterController {
             double peso = Double.parseDouble(pesoField.getText().trim().replace(",", "."));
             double altura = Double.parseDouble(alturaField.getText().trim().replace(",", "."));
             UserProfile.Gender gender = (UserProfile.Gender) genderGroup.getSelectedToggle().getUserData();
+            UserProfile.PhysicalActivityLevel activityLevel = atividadeCombo.getValue();
 
             if (nome.isEmpty())
                 throw new IllegalArgumentException("Nome obrigatório.");
@@ -116,8 +130,9 @@ public class RegisterController {
                 profileToEdit.setPesoKg(peso);
                 profileToEdit.setAlturaCm(altura);
                 profileToEdit.setGender(gender);
+                profileToEdit.setPhysicalActivityLevel(activityLevel);
             } else {
-                UserProfile newProfile = new UserProfile(nome, idade, peso, altura, gender);
+                UserProfile newProfile = new UserProfile(nome, idade, peso, altura, gender, activityLevel);
                 state.addProfile(newProfile);
             }
             store.save(state);

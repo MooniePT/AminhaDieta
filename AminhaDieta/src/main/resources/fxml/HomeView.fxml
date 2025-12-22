@@ -54,21 +54,30 @@
         </VBox>
     </HBox>
 
-    <!-- Graph Section -->
-    <HBox spacing="20" VBox.vgrow="ALWAYS">
-        <!-- Weight Chart -->
-        <VBox styleClass="card" HBox.hgrow="ALWAYS">
-            <Label text="Evolução de Peso" styleClass="label-subheader"/>
-            <LineChart fx:id="weightChart">
-                <xAxis><CategoryAxis label="Data" /></xAxis>
-                <yAxis><NumberAxis label="Peso (kg)" /></yAxis>
-            </LineChart>
+    <!-- Charts Side-by-Side -->
+    <HBox spacing="15" prefHeight="350" VBox.vgrow="ALWAYS">
+        <!-- Pie Chart (Larger) -->
+        <VBox styleClass="card" HBox.hgrow="ALWAYS" minWidth="300">
+            <Label text="Consumo Diário" styleClass="label-subheader"/>
+            <PieChart fx:id="consumptionPieChart" labelsVisible="true" legendVisible="false" VBox.vgrow="ALWAYS"/>
         </VBox>
 
-        <!-- Macros Chart -->
-        <VBox styleClass="card" HBox.hgrow="ALWAYS">
-            <Label text="Distribuição Macros" styleClass="label-subheader"/>
-            <PieChart fx:id="macroChart" labelsVisible="true" legendVisible="true" />
+        <!-- Exercise Chart (Larger) -->
+        <VBox styleClass="card" HBox.hgrow="ALWAYS" minWidth="300">
+            <Label text="Atividade Física" styleClass="label-subheader"/>
+            <BarChart fx:id="exerciseChart" legendVisible="false" VBox.vgrow="ALWAYS">
+                <xAxis><CategoryAxis label="Dia" /></xAxis>
+                <yAxis><NumberAxis label="Kcal" /></yAxis>
+            </BarChart>
+        </VBox>
+
+        <!-- Weight Chart (Smaller) -->
+        <VBox styleClass="card" HBox.hgrow="SOMETIMES" prefWidth="250" maxWidth="300">
+            <Label text="Peso" styleClass="label-subheader"/>
+            <LineChart fx:id="weightChart" legendVisible="false" createSymbols="false" VBox.vgrow="ALWAYS">
+                <xAxis><CategoryAxis label="Data" /></xAxis>
+                <yAxis><NumberAxis label="Kg" forceZeroInRange="false" /></yAxis>
+            </LineChart>
         </VBox>
     </HBox>
 

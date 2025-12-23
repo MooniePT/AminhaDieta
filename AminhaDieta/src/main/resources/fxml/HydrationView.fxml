@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="app.ui.controller.HydrationController" spacing="20" styleClass="content-area">
     <Label text="Registar Água" styleClass="label-header"/>
 
     <VBox spacing="10" alignment="CENTER">
+        <ImageView fitHeight="150" fitWidth="150" preserveRatio="true">
+            <Image url="@../images/water_icon.png"/>
+        </ImageView>
         <Label fx:id="mainLabel" text="0.0 L / 2.5 L" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #03A9F4;" />
         <ProgressBar fx:id="waterBar" progress="0.0" prefWidth="300" style="-fx-accent: #03A9F4;" />
     </VBox>
 
     <HBox spacing="20" alignment="CENTER">
-        <Button text="+250 ml" onAction="#add250" styleClass="button" prefWidth="100"/>
-        <Button text="+500 ml" onAction="#add500" styleClass="button" prefWidth="100"/>
+        <Button text="+250 ml" onAction="#add250" styleClass="button" minWidth="120"/>
+        <Button text="+500 ml" onAction="#add500" styleClass="button" minWidth="120"/>
     </HBox>
 
     <HBox spacing="10" alignment="CENTER">

@@ -70,6 +70,13 @@ public class ExerciseController {
             caloriesField.clear();
 
             refreshList();
+
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+                    javafx.scene.control.Alert.AlertType.INFORMATION);
+            alert.setTitle("Bom Trabalho!");
+            alert.setHeaderText("Exercício Registado!");
+            alert.setContentText("Continua assim! O teu corpo agradece.");
+            alert.showAndWait();
         } catch (NumberFormatException e) {
             statusLabel.setText("Duração e Calorias devem ser números inteiros.");
         } catch (IllegalArgumentException e) {

@@ -10,9 +10,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="app.ui.controller.MealsController" spacing="10" styleClass="content-area">
-    <Label text="Refeições" styleClass="label-header"/>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <ImageView fitHeight="60" fitWidth="60" preserveRatio="true">
+            <Image url="@../images/food_icon.png"/>
+        </ImageView>
+        <Label text="Refeições" styleClass="label-header"/>
+    </HBox>
 
     <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
         <Tab text="Diário">

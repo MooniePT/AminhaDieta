@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="app.ui.controller.SettingsController" spacing="20" styleClass="content-area">
+    <Label text="Definições" styleClass="label-header"/>
+
+    <VBox spacing="15" styleClass="card" maxWidth="500">
+        <Label text="Aparência" styleClass="label-subheader"/>
+        
+        <HBox spacing="20" alignment="CENTER_LEFT">
+            <Label text="Modo Arco-íris:" />
+            <CheckBox fx:id="rainbowCheck" onAction="#onRainbowToggled"/>
+        </HBox>
+
+        <HBox spacing="20" alignment="CENTER_LEFT" fx:id="colorBox">
+            <Label text="Cor do Tema:" />
+            <ColorPicker fx:id="themeColorPicker" onAction="#onColorChanged"/>
+        </HBox>
+
+        <HBox spacing="20" alignment="CENTER_LEFT">
+            <Label text="Tipo de Letra:" />
+            <ComboBox fx:id="fontCombo" onAction="#onFontChanged" prefWidth="150"/>
+        </HBox>
+        
+        <Label fx:id="statusLabel" styleClass="label-data-small"/>
+    </VBox>
+</VBox>

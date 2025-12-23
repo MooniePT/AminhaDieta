@@ -22,6 +22,15 @@
 *   **Gráficos**: Visualize a distribuição de macronutrientes (Proteína, Carbohidratos, Gordura) e a evolução do peso.
 *   **Exportação PDF**: Gere relatórios detalhados para imprimir ou partilhar com o seu nutricionista.
 
+### 🎨 Personalização Visual
+*   **Temas**: Escolha entre um modo "Arco-íris" dinâmico ou cores estáticas vibrantes.
+*   **Tipografia**: Selecione o tipo de letra que mais lhe agrada (Verdana, Arial, etc.).
+*   **Interface Moderna**: Navegação superior intuitiva e ícones personalizados.
+
+### 🏆 Gamificação e Motivação
+*   **Feedback Imediato**: Receba mensagens motivacionais ao registar exercícios.
+*   **Celebração de Metas**: Alertas de parabéns ao atingir o objetivo diário de hidratação.
+
 ## Como Contribuir
 Contribuições são bem-vindas! Se quiser melhorar este projeto:
 1.  Faça um **Fork** do repositório.

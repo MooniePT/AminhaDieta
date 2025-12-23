@@ -8,9 +8,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="app.ui.controller.ExerciseController" spacing="10" styleClass="content-area">
-    <Label text="Exercício Físico" styleClass="label-header"/>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <ImageView fitHeight="60" fitWidth="60" preserveRatio="true">
+            <Image url="@../images/exercise_icon.png"/>
+        </ImageView>
+        <Label text="Exercício Físico" styleClass="label-header"/>
+    </HBox>
 
     <VBox spacing="15" style="-fx-padding: 15;">
         <!-- Add Form -->

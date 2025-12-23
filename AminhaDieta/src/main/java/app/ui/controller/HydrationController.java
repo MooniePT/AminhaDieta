@@ -87,6 +87,15 @@ public class HydrationController {
             user.getWaters().add(new WaterEntry(ml));
             store.save(state);
             updateView();
+
+            if (user.getWaterConsumedToday() >= user.getDailyWaterGoalMl()) {
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+                        javafx.scene.control.Alert.AlertType.INFORMATION);
+                alert.setTitle("Parabéns!");
+                alert.setHeaderText("Objetivo de Hidratação Atingido!");
+                alert.setContentText("Excelente trabalho! Mantém-te hidratado!");
+                alert.showAndWait();
+            }
         }
     }
 }

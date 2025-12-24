@@ -94,6 +94,7 @@ O projeto "A Minha Dieta" surge com o objetivo de colmatar esta necessidade, for
     \item Acompanhar o consumo diário de água.
     \item Registar atividades físicas e contabilizar as calorias gastas.
     \item Visualizar o progresso através de relatórios e gráficos detalhados.
+    \item Definir metas de peso e acompanhar a evolução com alertas de pesagem.
 \end{itemize}
 
 \subsection{Estrutura do Relatório}
@@ -148,6 +149,13 @@ O desenvolvimento do projeto decorreu ao longo de várias semanas, seguindo uma 
     \item \textbf{Correções Visuais}: Ajuste de layouts e remoção de artefactos visuais (barras pretas) nos componentes JavaFX.
 \end{itemize}
 
+\subsection{Fase 6: Funcionalidades Avançadas (Semana 10)}
+\begin{itemize}
+    \item \textbf{Histórico de Peso}: Implementação de registo periódico (Semanal/Mensal) e visualização gráfica da evolução.
+    \item \textbf{Metas de Peso}: Funcionalidade para definir um peso alvo e visualizar uma linha de meta no gráfico de histórico.
+    \item \textbf{Notificações Inteligentes}: Sistema de alertas para lembrar o utilizador de se pesar e mensagens de celebração ao atingir o peso ideal.
+\end{itemize}
+
 \newpage
 
 \section{Arquitetura do Sistema}
@@ -184,7 +192,7 @@ Nesta secção, analisamos em detalhe os principais componentes do sistema.
 \subsubsection{Classe \texttt{UserProfile}}
 Esta é a classe central do domínio. Representa um utilizador e agrega toda a sua informação.
 \begin{itemize}
-    \item \textbf{Atributos}: Nome, idade, peso, altura, género, nível de atividade.
+    \item \textbf{Atributos}: Nome, idade, peso, altura, género, nível de atividade, meta de peso e frequência de pesagem.
     \item \textbf{Listas}: Mantém listas de \texttt{MealEntry}, \texttt{WaterEntry}, \texttt{ExerciseEntry} e \texttt{WeightEntry}.
     \item \textbf{Métodos Principais}:
         \begin{itemize}
@@ -234,8 +242,9 @@ private void updateUI() {
 Este controlador implementa a funcionalidade de relatórios.
 \begin{itemize}
     \item \textbf{Tabelas}: Utiliza \texttt{TableView} para listar o histórico detalhado.
+    \item \textbf{Gráficos}: Apresenta um gráfico de linhas com a evolução do peso e uma linha horizontal indicando a meta definida.
     \item \textbf{Filtros}: Permite filtrar os dados por intervalo de datas.
-    \item \textbf{Exportação PDF}: Integra com a biblioteca OpenPDF para gerar um documento físico. O método de geração percorre os dados do utilizador e constrói um PDF com tabelas formatadas e cabeçalhos.
+    \item \textbf{Exportação PDF}: Integra com a biblioteca OpenPDF para gerar um documento físico, incluindo agora as metas de peso e frequência.
 \end{itemize}
 
 \subsection{Pacote \texttt{app.persistence}}

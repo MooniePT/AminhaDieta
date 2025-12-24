@@ -22,7 +22,9 @@ O projeto "A Minha Dieta" fornece uma aplicação desktop intuitiva para:
 *   Registar refeições e monitorizar macronutrientes.
 *   Acompanhar o consumo de água.
 *   Registar atividades físicas.
+
 *   Visualizar progresso com gráficos.
+*   Definir metas de peso e acompanhar a evolução.
 
 ---
 
@@ -48,7 +50,13 @@ O projeto "A Minha Dieta" fornece uma aplicação desktop intuitiva para:
 *   **Redesign da Interface**: Paleta de cores vibrante e tipografia moderna.
 *   **Definições**: Ecrã para personalizar fundo (Arco-íris/Estático) e fontes.
 *   **Gamificação**: Mensagens motivacionais ao atingir metas.
+
 *   **Correções**: Ajustes visuais em componentes JavaFX.
+
+### Fase 6: Funcionalidades Avançadas (Semana 10)
+*   **Histórico de Peso**: Registo periódico (Semanal/Mensal) e visualização gráfica.
+*   **Metas de Peso**: Definição de peso alvo e linha de meta no gráfico.
+*   **Notificações Inteligentes**: Alerta para pesagem e celebração ao atingir o peso ideal.
 
 ---
 

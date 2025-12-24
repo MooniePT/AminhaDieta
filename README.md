@@ -7,6 +7,8 @@
 
 ### 👤 Gestão de Perfil
 *   **Cálculo Automático**: Ao inserir idade, peso, altura e nível de atividade, a aplicação calcula automaticamente a sua Taxa Metabólica Basal (TMB) e necessidades calóricas diárias usando a equação de Mifflin-St Jeor.
+
+*   **Metas de Peso**: Defina o seu peso alvo e a frequência com que deseja ser pesado (Semanal ou Mensal).
 *   **Múltiplos Utilizadores**: Suporte para vários perfis na mesma aplicação, ideal para famílias.
 
 ### 🍎 Diário Alimentar
@@ -20,7 +22,9 @@
 
 ### 📊 Relatórios e Análise
 *   **Gráficos**: Visualize a distribuição de macronutrientes (Proteína, Carbohidratos, Gordura) e a evolução do peso.
+*   **Histórico de Evolução**: Acompanhe o seu peso ao longo do tempo com uma linha de meta clara para saber quão perto está do seu objetivo.
 *   **Exportação PDF**: Gere relatórios detalhados para imprimir ou partilhar com o seu nutricionista.
+
 
 ### 🎨 Personalização Visual
 *   **Temas**: Escolha entre um modo "Arco-íris" dinâmico ou cores estáticas vibrantes.
@@ -29,7 +33,8 @@
 
 ### 🏆 Gamificação e Motivação
 *   **Feedback Imediato**: Receba mensagens motivacionais ao registar exercícios.
-*   **Celebração de Metas**: Alertas de parabéns ao atingir o objetivo diário de hidratação.
+
+*   **Celebração de Metas**: Alertas de parabéns ao atingir o objetivo diário de hidratação ou a sua meta de peso.
 
 ## Como Contribuir
 Contribuições são bem-vindas! Se quiser melhorar este projeto:

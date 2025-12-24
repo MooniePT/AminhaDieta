@@ -60,6 +60,31 @@ public class UserProfile implements Serializable {
         }
     }
 
+    private double targetWeightKg;
+    private WeighInFrequency weighInFrequency;
+
+    public enum WeighInFrequency {
+        WEEKLY("Semanalmente", 7),
+        MONTHLY("Mensalmente", 30);
+
+        private final String label;
+        private final int days;
+
+        WeighInFrequency(String label, int days) {
+            this.label = label;
+            this.days = days;
+        }
+
+        public int getDays() {
+            return days;
+        }
+
+        @Override
+        public String toString() {
+            return label;
+        }
+    }
+
     // Dados específicos deste perfil (Listas de registos)
     private final List<MealEntry> meals = new ArrayList<>();
     private final List<WaterEntry> waters = new ArrayList<>();
@@ -75,6 +100,20 @@ public class UserProfile implements Serializable {
         this.alturaCm = alturaCm;
         this.gender = gender;
         this.physicalActivityLevel = physicalActivityLevel;
+        // Default frequency if not specified
+        this.weighInFrequency = WeighInFrequency.WEEKLY;
+        // Default target to current weight if not specified (maintenance)
+        this.targetWeightKg = pesoKg;
+
+        // Add initial weight entry
+        addWeightEntry(pesoKg);
+    }
+
+    public UserProfile(String nome, int idade, double pesoKg, double alturaCm, Gender gender,
+            PhysicalActivityLevel physicalActivityLevel, WeighInFrequency weighInFrequency, double targetWeightKg) {
+        this(nome, idade, pesoKg, alturaCm, gender, physicalActivityLevel);
+        this.weighInFrequency = weighInFrequency;
+        this.targetWeightKg = targetWeightKg;
     }
 
     // Calculadoras e Métodos Utilitários
@@ -95,11 +134,42 @@ public class UserProfile implements Serializable {
             bmr -= 161;
 
         double multiplier = (physicalActivityLevel != null) ? physicalActivityLevel.getMultiplier() : 1.2;
-        return (int) (bmr * multiplier);
+
+        // Adjust for target weight
+        // Simple rule: -500kcal for weight loss, +500kcal for weight gain
+        int baseCalories = (int) (bmr * multiplier);
+        if (targetWeightKg < pesoKg) {
+            return Math.max(1200, baseCalories - 500); // Minimum safety buffer
+        } else if (targetWeightKg > pesoKg) {
+            return baseCalories + 500;
+        }
+
+        return baseCalories;
     }
 
     public double getDailyWaterGoalMl() {
         return 35 * pesoKg;
+    }
+
+    public boolean isWeighInDue() {
+        if (weights.isEmpty())
+            return true;
+
+        WeightEntry lastEntry = weights.get(weights.size() - 1);
+        java.time.LocalDate lastDate = lastEntry.getDate();
+        java.time.LocalDate today = java.time.LocalDate.now();
+
+        // If last entry is today, not due
+        if (lastDate.equals(today))
+            return false;
+
+        long daysSince = java.time.temporal.ChronoUnit.DAYS.between(lastDate, today);
+        return daysSince >= weighInFrequency.getDays();
+    }
+
+    public void addWeightEntry(double weight) {
+        this.pesoKg = weight; // Update current weight
+        this.weights.add(new WeightEntry(weight));
     }
 
     // Progresso Diário
@@ -183,6 +253,7 @@ public class UserProfile implements Serializable {
 
     public void setPesoKg(double pesoKg) {
         this.pesoKg = pesoKg;
+        // Optionally add entry here, but explicit addWeightEntry is better for control
     }
 
     public double getAlturaCm() {
@@ -207,6 +278,22 @@ public class UserProfile implements Serializable {
 
     public void setPhysicalActivityLevel(PhysicalActivityLevel physicalActivityLevel) {
         this.physicalActivityLevel = physicalActivityLevel;
+    }
+
+    public double getTargetWeightKg() {
+        return targetWeightKg;
+    }
+
+    public void setTargetWeightKg(double targetWeightKg) {
+        this.targetWeightKg = targetWeightKg;
+    }
+
+    public WeighInFrequency getWeighInFrequency() {
+        return weighInFrequency;
+    }
+
+    public void setWeighInFrequency(WeighInFrequency weighInFrequency) {
+        this.weighInFrequency = weighInFrequency;
     }
 
     public List<ExerciseEntry> getExercises() {

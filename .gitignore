@@ -31,3 +31,9 @@ Thumbs.db
 *.fdb_latexmk
 
 
+# Inno Setup
+Output/
+*.exe
+
+
+

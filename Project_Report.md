@@ -57,6 +57,8 @@ O projeto "A Minha Dieta" fornece uma aplicação desktop intuitiva para:
 *   **Histórico de Peso**: Registo periódico (Semanal/Mensal) e visualização gráfica.
 *   **Metas de Peso**: Definição de peso alvo e linha de meta no gráfico.
 *   **Notificações Inteligentes**: Alerta para pesagem e celebração ao atingir o peso ideal.
+*   **Distribuição**: Criação de um instalador Windows (`.exe`) utilizando o Inno Setup, facilitando a distribuição e instalação da aplicação em outros computadores.
+
 
 ---
 

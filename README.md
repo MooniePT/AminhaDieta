@@ -53,12 +53,24 @@ Consulte o [Manual Git](GIT_MANUAL.md) para ajuda com os comandos.
 ## Como Executar
 1. **Compilar o projeto:**
    ```bash
-   mvn clean compile
+   mvn clean package
    ```
 2. **Executar a aplicação:**
    ```bash
    mvn javafx:run
    ```
+
+## Instalação (Windows)
+Para instalar a aplicação no Windows:
+1. Faça download do instalador `AMinhaDieta_Setup.exe` (na secção Releases).
+2. Execute o ficheiro e siga as instruções do assistente.
+
+## Criar Instalador
+Para gerar o instalador `exe`:
+1. Execute `mvn package` para criar o JAR.
+2. Abra `setup.iss` com o Inno Setup Compiler.
+3. Clique em "Compile".
+O ficheiro `AMinhaDieta_Setup.exe` será gerado na raiz do projeto.
 
 ## Estrutura do Projeto
 - `src/main/java/app`: Código fonte da aplicação.

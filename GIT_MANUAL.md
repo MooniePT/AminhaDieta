@@ -47,6 +47,9 @@ Para trabalhar numa nova funcionalidade sem estragar o que já está feito:
 *   `git push`: Enviar para o GitHub.
 *   `git pull`: Receber do GitHub.
 
+> **Dica**: Nunca faça commit de ficheiros gerados automaticamente (como pastas `target/`, ficheiros `.class`, `.jar` ou `.exe`). Use o ficheiro `.gitignore` para os ignorar.
+
+
 ### Trabalhar com Ramos
 *   `git checkout -b nome-do-ramo`: Criar e mudar para um novo ramo.
 *   `git checkout main`: Voltar ao ramo principal.

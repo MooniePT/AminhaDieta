@@ -8,24 +8,27 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="app.ui.controller.DashboardController">
 
-    <left>
-        <VBox spacing="15" styleClass="sidebar" prefWidth="250">
-            <Label text="A Minha Dieta" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
-            <Region prefHeight="20" />
+    <top>
+        <HBox spacing="15" styleClass="navbar" alignment="CENTER_LEFT">
+            <Label text="A Minha Dieta" />
+            <Region prefWidth="20" />
             
-            <Button fx:id="homeBtn" text="Dashboard" styleClass="button" maxWidth="Infinity" onAction="#onHome"/>
-            <Button fx:id="mealsBtn" text="Refeições" styleClass="button" maxWidth="Infinity" onAction="#onMeals"/>
-            <Button fx:id="hydrationBtn" text="Hidratação" styleClass="button" maxWidth="Infinity" onAction="#onHydration"/>
-            <Button fx:id="historyBtn" text="Histórico" styleClass="button" maxWidth="Infinity" onAction="#onHistory"/>
-            <Region VBox.vgrow="ALWAYS" />
-            <Button text="Trocar Perfil" onAction="#onTrocarPerfil" styleClass="button, button-secondary" maxWidth="Infinity" />
-            <padding><Insets bottom="20" /></padding>
-        </VBox>
-    </left>
+            <Button fx:id="homeBtn" text="Dashboard" styleClass="button" onAction="#onHome"/>
+            <Button fx:id="mealsBtn" text="Refeições" styleClass="button" onAction="#onMeals"/>
+            <Button fx:id="hydrationBtn" text="Hidratação" styleClass="button" onAction="#onHydration"/>
+            <Button fx:id="exerciseBtn" text="Exercício" styleClass="button" onAction="#onExercise"/>
+            <Button fx:id="historyBtn" text="Histórico" styleClass="button" onAction="#onHistory"/>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Definições" onAction="#onSettings" styleClass="button, button-secondary" />
+            <Button text="Trocar Perfil" onAction="#onTrocarPerfil" styleClass="button, button-secondary" />
+        </HBox>
+    </top>
 
     <center>
-        <StackPane fx:id="contentArea" styleClass="content-area">
-             <!-- Views will be loaded here -->
-        </StackPane>
+        <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <StackPane fx:id="contentArea" styleClass="content-area">
+                 <!-- Views will be loaded here -->
+            </StackPane>
+        </ScrollPane>
     </center>
 </BorderPane>

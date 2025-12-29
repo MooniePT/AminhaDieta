@@ -7,7 +7,7 @@ public class AppState implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private List<UserProfile> profiles = new ArrayList<>();
-    private UUID activeProfileId; // quem está "logado"
+    private UUID activeProfileId; // Identificador do perfil atualmente ativo
 
     public List<UserProfile> getProfiles() {
         if (profiles == null) {
@@ -34,7 +34,7 @@ public class AppState implements Serializable {
 
     public void addProfile(UserProfile p) {
         profiles.add(p);
-        activeProfileId = p.getId(); // faz "login" automático ao criar
+        activeProfileId = p.getId(); // Define automaticamente como ativo ao criar
     }
 
     public void removeProfile(UUID id) {

@@ -2,6 +2,9 @@ package app.model;
 
 import java.io.Serializable;
 
+/**
+ * Representa um alimento com os seus valores nutricionais.
+ */
 public class Food implements Serializable {
     private static final long serialVersionUID = 1L;
 

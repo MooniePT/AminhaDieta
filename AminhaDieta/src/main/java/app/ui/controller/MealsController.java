@@ -11,10 +11,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.util.StringConverter;
 
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Controlador responsável pelo registo e gestão de refeições.
+ * Permite adicionar refeições manualmente ou através de atalhos rápidos.
+ */
 public class MealsController {
 
     @FXML
@@ -35,7 +40,7 @@ public class MealsController {
     @FXML
     private ListView<String> mealsList;
 
-    // Embedded Controller
+    // Controlador Embutido
     @FXML
     private FoodDatabaseController foodDatabaseController;
 
@@ -46,15 +51,10 @@ public class MealsController {
         this.state = state;
         this.store = store;
 
-        // Init embedded controller if present (fx:include injects it + "Controller"
-        // suffix naming convention often used,
-        // but wait, standard FXML loader injection is id+"Controller". My id was
-        // fx:id="foodDatabase".
-        // So field should be foodDatabaseController? No, it injects the controller of
-        // the included file.
-        // Actually, let's pass data to the embedded controller manually if needed.
+        // Inicializar controlador embutido se presente
         if (foodDatabaseController != null) {
             foodDatabaseController.init(sceneManager, state, store);
+            foodDatabaseController.setOnFoodAddedListener(this::updateList);
         }
 
         setupFoodSelector();
@@ -78,14 +78,16 @@ public class MealsController {
             }
         });
 
-        // Populate
+        // Preencher
         foodSelector.getItems().setAll(user.getFoods());
 
-        // Refresh items when list changes?
-        // Ideally we would use ObservableList, but for now simple init is okay.
-        // User adds food in other tab -> might not update here immediately unless we
-        // refresh.
-        // Hook for tab switch? For now simple.
+        // Atualizar itens quando a lista muda?
+        // Idealmente usaríamos ObservableList, mas por agora inicialização simples é
+        // ok.
+        // Utilizador adiciona comida noutra aba -> pode não atualizar aqui
+        // imediatamente a menos que
+        // atualizemos.
+        // Hook para troca de aba? Por agora simples.
     }
 
     @FXML
@@ -106,7 +108,7 @@ public class MealsController {
             String desc = descriptionField.getText().trim();
             String calStr = caloriesField.getText().trim();
 
-            // Macros optional/default 0
+            // Macros opcionais/padrão 0
             double p = parseDoubleOrZero(protField.getText());
             double c = parseDoubleOrZero(carbField.getText());
             double f = parseDoubleOrZero(fatField.getText());
@@ -140,6 +142,70 @@ public class MealsController {
         }
     }
 
+    private void askQuantityAndAdd(String name, double kcal100, double p100, double c100, double f100,
+            boolean isLiquid) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Adicionar " + name);
+        dialog.setHeaderText("Quantidade de " + name);
+        dialog.setContentText(isLiquid ? "Quantidade (ml):" : "Quantidade (g):");
+
+        dialog.showAndWait().ifPresent(result -> {
+            try {
+                double qty = Double.parseDouble(result.trim());
+                if (qty <= 0)
+                    return;
+
+                double ratio = qty / 100.0;
+                int cal = (int) (kcal100 * ratio);
+                double p = p100 * ratio;
+                double c = c100 * ratio;
+                double f = f100 * ratio;
+
+                UserProfile user = state.getActiveProfile();
+                if (user != null) {
+                    user.getMeals()
+                            .add(new MealEntry(name + " (" + (int) qty + (isLiquid ? "ml" : "g") + ")", cal, p, c, f));
+                    store.save(state);
+                    updateList();
+                }
+            } catch (NumberFormatException e) {
+                // Ignore
+            }
+        });
+    }
+
+    @FXML
+    private void onAddRice() {
+        askQuantityAndAdd("Arroz", 130, 2.7, 28, 0.3, false);
+    }
+
+    @FXML
+    private void onAddPasta() {
+        askQuantityAndAdd("Massa", 131, 5, 25, 1.1, false);
+    }
+
+    @FXML
+    private void onAddPotato() {
+        askQuantityAndAdd("Batata", 87, 1.9, 20, 0.1, false);
+    }
+
+    @FXML
+    private void onAddMilk() {
+        askQuantityAndAdd("Leite", 47, 3.4, 4.9, 1.5, true);
+    }
+
+    @FXML
+    private void onAddEggs() {
+        // Ovos (aprox. 155 kcal/100g)
+        askQuantityAndAdd("Ovos", 155, 13, 1.1, 11, false);
+    }
+
+    @FXML
+    private void onAddBread() {
+        // Pão (aprox. 265 kcal/100g)
+        askQuantityAndAdd("Pão", 265, 9, 49, 3.2, false);
+    }
+
     private double parseDoubleOrZero(String s) {
         if (s == null || s.trim().isEmpty())
             return 0;
@@ -156,7 +222,7 @@ public class MealsController {
         if (user == null)
             return;
 
-        // Refresh selector just in case new foods were added
+        // Atualizar seletor caso novos alimentos tenham sido adicionados
         foodSelector.getItems().setAll(user.getFoods());
 
         java.time.LocalDate today = java.time.LocalDate.now();

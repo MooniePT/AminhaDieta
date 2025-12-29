@@ -1,5 +1,4 @@
 package app;
-
 /**
  * Ponto de entrada da aplicação (necessário para criar o JAR executável).
  */
@@ -8,3 +7,4 @@ public class Launcher {
         Main.main(args);
     }
 }
+

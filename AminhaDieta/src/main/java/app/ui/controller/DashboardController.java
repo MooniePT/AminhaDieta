@@ -5,6 +5,10 @@ import app.persistence.DataStore;
 import app.ui.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
+import app.model.UserProfile;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert;
+import java.util.Optional;
 
 /**
  * Controlador principal do Dashboard, responsável pela navegação entre as
@@ -31,6 +35,49 @@ public class DashboardController {
 
         onHome(); // Carrega a vista inicial por defeito
         startRainbowAnimation();
+
+        // Check for weigh-in
+        javafx.application.Platform.runLater(this::checkWeighIn);
+    }
+
+    private void checkWeighIn() {
+        UserProfile user = state.getActiveProfile();
+        if (user != null && user.isWeighInDue()) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Registo de Peso");
+            dialog.setHeaderText("Está na altura de se pesar!");
+            dialog.setContentText("Por favor, introduza o seu peso atual (kg):");
+
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(weightStr -> {
+                try {
+                    double weight = Double.parseDouble(weightStr.replace(",", "."));
+                    if (weight > 0) {
+                        user.addWeightEntry(weight);
+                        store.save(state);
+
+                        // Check target
+                        checkTargetAchievement(user);
+                    }
+                } catch (NumberFormatException e) {
+                    // Ignore invalid input
+                }
+            });
+        }
+    }
+
+    private void checkTargetAchievement(UserProfile user) {
+        double current = user.getPesoKg();
+        double target = user.getTargetWeightKg();
+
+        // Check if within 0.5kg of target
+        if (Math.abs(current - target) <= 0.5) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Parabéns!");
+            alert.setHeaderText("Atingiu a sua meta de peso!");
+            alert.setContentText("Excelente trabalho! Continue assim para manter a sua saúde.");
+            alert.showAndWait();
+        }
     }
 
     public boolean isRainbowEnabled() {

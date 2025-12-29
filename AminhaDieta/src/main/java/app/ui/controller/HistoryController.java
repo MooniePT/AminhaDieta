@@ -120,11 +120,35 @@ public class HistoryController {
         // Gráfico - Mostrar histórico de Peso
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Peso (kg)");
-        // Adicionar atual
-        series.getData().add(new XYChart.Data<>("Atual", user.getPesoKg()));
+
+        DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("dd/MM");
+
+        for (app.model.WeightEntry w : user.getWeights()) {
+            series.getData().add(new XYChart.Data<>(w.getDate().format(dateFmt), w.getWeightKg()));
+        }
+
+        // Ensure at least current weight is shown if history is empty (shouldn't happen
+        // with new logic)
+        if (series.getData().isEmpty()) {
+            series.getData().add(new XYChart.Data<>("Atual", user.getPesoKg()));
+        }
 
         historyChart.getData().clear();
         historyChart.getData().add(series);
+
+        // Add Target Line
+        XYChart.Series<String, Number> targetSeries = new XYChart.Series<>();
+        targetSeries.setName("Meta (" + user.getTargetWeightKg() + "kg)");
+
+        // Add target points for the same X values as the weight series to make a line
+        // Or just start and end? LineChart with CategoryAxis needs matching categories
+        // or it looks weird.
+        // Simplest: Add target point for every weight point date.
+        for (XYChart.Data<String, Number> data : series.getData()) {
+            targetSeries.getData().add(new XYChart.Data<>(data.getXValue(), user.getTargetWeightKg()));
+        }
+
+        historyChart.getData().add(targetSeries);
 
         // Exercícios
         exercisesTable.getItems().setAll(user.getExercises());
@@ -222,6 +246,9 @@ public class HistoryController {
                 document.add(new Paragraph("Nível de Atividade: "
                         + (user.getPhysicalActivityLevel() != null ? user.getPhysicalActivityLevel().toString()
                                 : "N/A")));
+                document.add(new Paragraph("Meta de Peso: " + user.getTargetWeightKg() + " kg"));
+                document.add(new Paragraph("Frequência de Pesagem: " +
+                        (user.getWeighInFrequency() != null ? user.getWeighInFrequency().toString() : "N/A")));
                 document.add(new Paragraph(" "));
 
                 // 2. Histórico de Refeições

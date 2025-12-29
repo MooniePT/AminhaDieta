@@ -30,6 +30,10 @@ public class RegisterController {
     @FXML
     private TextField alturaField;
     @FXML
+    private TextField metaPesoField;
+    @FXML
+    private ComboBox<UserProfile.WeighInFrequency> frequenciaCombo;
+    @FXML
     private Label erroLabel;
 
     @FXML
@@ -72,6 +76,9 @@ public class RegisterController {
         atividadeCombo.getItems().setAll(UserProfile.PhysicalActivityLevel.values());
         atividadeCombo.getSelectionModel().select(UserProfile.PhysicalActivityLevel.SEDENTARY);
 
+        frequenciaCombo.getItems().setAll(UserProfile.WeighInFrequency.values());
+        frequenciaCombo.getSelectionModel().select(UserProfile.WeighInFrequency.WEEKLY);
+
         // Se já existe user => modo editar (pré-preencher)
         if (profileToEdit != null) {
             tituloLabel.setText("Editar Perfil");
@@ -81,6 +88,8 @@ public class RegisterController {
             idadeField.setText(String.valueOf(profileToEdit.getIdade()));
             pesoField.setText(String.valueOf(profileToEdit.getPesoKg()));
             alturaField.setText(String.valueOf(profileToEdit.getAlturaCm()));
+            metaPesoField.setText(String.valueOf(profileToEdit.getTargetWeightKg()));
+            frequenciaCombo.getSelectionModel().select(profileToEdit.getWeighInFrequency());
 
             if (profileToEdit.getGender() == UserProfile.Gender.MALE)
                 masculinoRadio.setSelected(true);
@@ -112,8 +121,11 @@ public class RegisterController {
             int idade = Integer.parseInt(idadeField.getText().trim());
             double peso = Double.parseDouble(pesoField.getText().trim().replace(",", "."));
             double altura = Double.parseDouble(alturaField.getText().trim().replace(",", "."));
+            double metaPeso = Double.parseDouble(metaPesoField.getText().trim().replace(",", "."));
+
             UserProfile.Gender gender = (UserProfile.Gender) genderGroup.getSelectedToggle().getUserData();
             UserProfile.PhysicalActivityLevel activityLevel = atividadeCombo.getValue();
+            UserProfile.WeighInFrequency frequency = frequenciaCombo.getValue();
 
             if (nome.isEmpty())
                 throw new IllegalArgumentException("Nome obrigatório.");
@@ -123,16 +135,28 @@ public class RegisterController {
                 throw new IllegalArgumentException("Peso inválido.");
             if (altura <= 0)
                 throw new IllegalArgumentException("Altura inválida.");
+            if (metaPeso <= 0)
+                throw new IllegalArgumentException("Meta de peso inválida.");
 
             if (profileToEdit != null) {
                 profileToEdit.setNome(nome);
                 profileToEdit.setIdade(idade);
-                profileToEdit.setPesoKg(peso);
+                // If weight changed manually here, we might want to add an entry?
+                // For now, just update current. Logic elsewhere handles history.
+                // But if user corrects a typo, we don't want a new entry.
+                // Let's assume editing profile updates current stats.
+                if (profileToEdit.getPesoKg() != peso) {
+                    profileToEdit.setPesoKg(peso);
+                    profileToEdit.addWeightEntry(peso); // Add entry if weight changed in edit
+                }
                 profileToEdit.setAlturaCm(altura);
                 profileToEdit.setGender(gender);
                 profileToEdit.setPhysicalActivityLevel(activityLevel);
+                profileToEdit.setTargetWeightKg(metaPeso);
+                profileToEdit.setWeighInFrequency(frequency);
             } else {
-                UserProfile newProfile = new UserProfile(nome, idade, peso, altura, gender, activityLevel);
+                UserProfile newProfile = new UserProfile(nome, idade, peso, altura, gender, activityLevel, frequency,
+                        metaPeso);
                 state.addProfile(newProfile);
             }
             store.save(state);

@@ -42,12 +42,23 @@
                          <TextField fx:id="idadeField" promptText="Anos" styleClass="text-field" />
                      </VBox>
                      <VBox spacing="5" HBox.hgrow="ALWAYS">
-                         <Label text="Peso (kg)" />
+                         <Label text="Peso Atual (kg)" />
                          <TextField fx:id="pesoField" promptText="kg" styleClass="text-field" />
                      </VBox>
                      <VBox spacing="5" HBox.hgrow="ALWAYS">
                          <Label text="Altura (cm)" />
                          <TextField fx:id="alturaField" promptText="cm" styleClass="text-field" />
+                     </VBox>
+                 </HBox>
+
+                 <HBox spacing="10">
+                     <VBox spacing="5" HBox.hgrow="ALWAYS">
+                         <Label text="Meta de Peso (kg)" />
+                         <TextField fx:id="metaPesoField" promptText="kg" styleClass="text-field" />
+                     </VBox>
+                     <VBox spacing="5" HBox.hgrow="ALWAYS">
+                         <Label text="Frequência de Pesagem" />
+                         <ComboBox fx:id="frequenciaCombo" promptText="Selecione..." maxWidth="Infinity" />
                      </VBox>
                  </HBox>
 

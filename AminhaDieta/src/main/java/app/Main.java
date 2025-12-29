@@ -16,9 +16,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Ficheiro de dados (localizado na pasta 'data' dentro do diretório de
-        // execução)
-        Path dataPath = Path.of("data", "appstate.dat");
+        // Ficheiro de dados (localizado na pasta AppData do utilizador para evitar
+        // problemas de permissões)
+        String appData = System.getenv("APPDATA");
+        if (appData == null) {
+            appData = System.getProperty("user.home");
+        }
+        Path dataPath = Path.of(appData, "AMinhaDieta", "data", "appstate.dat");
 
         DataStore store = new DataStore(dataPath);
         AppState state = store.load();

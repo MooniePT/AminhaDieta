@@ -3,6 +3,9 @@ package app.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * Representa um registo de consumo de água.
+ */
 public class WaterEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 

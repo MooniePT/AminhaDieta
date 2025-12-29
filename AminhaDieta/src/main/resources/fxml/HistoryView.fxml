@@ -4,7 +4,14 @@
 <?import javafx.scene.chart.*?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="app.ui.controller.HistoryController" spacing="20" styleClass="content-area">
-    <Label text="Histórico" styleClass="label-header"/>
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Histórico" styleClass="label-header"/>
+        <Region HBox.hgrow="ALWAYS" />
+        <DatePicker fx:id="startDatePicker" promptText="Data Início" prefWidth="120"/>
+        <DatePicker fx:id="endDatePicker" promptText="Data Fim" prefWidth="120"/>
+        <TextField fx:id="searchField" promptText="Pesquisar refeições..." prefWidth="200" />
+        <Button text="Download PDF" onAction="#handleDownloadPdf" />
+    </HBox>
 
     <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
         <Tab text="Refeições">
@@ -16,6 +23,27 @@
                         <TableColumn fx:id="calCol" text="Calorias" prefWidth="100" />
                     </columns>
                 </TableView>
+            </VBox>
+        </Tab>
+        <Tab text="Exercícios">
+            <VBox spacing="10" style="-fx-padding: 10;">
+                <TableView fx:id="exercisesTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="exDateCol" text="Data/Hora" prefWidth="150"/>
+                        <TableColumn fx:id="exTypeCol" text="Tipo" prefWidth="200" />
+                        <TableColumn fx:id="exDurationCol" text="Duração (min)" prefWidth="100" />
+                        <TableColumn fx:id="exCalCol" text="Calorias" prefWidth="100" />
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+        <Tab text="Hidratação">
+            <VBox spacing="10" style="-fx-padding: 10;">
+                <Label text="Histórico de Hidratação" styleClass="label-subheader"/>
+                <BarChart fx:id="hydrationChart" legendVisible="false" VBox.vgrow="ALWAYS">
+                    <xAxis><CategoryAxis label="Dia" /></xAxis>
+                    <yAxis><NumberAxis label="Água (ml)" /></yAxis>
+                </BarChart>
             </VBox>
         </Tab>
         <Tab text="Evolução">

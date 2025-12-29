@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * Representa um registo de uma refeição consumida pelo utilizador.
+ */
 public class MealEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 

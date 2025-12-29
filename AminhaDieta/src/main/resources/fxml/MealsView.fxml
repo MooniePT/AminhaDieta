@@ -10,9 +10,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="app.ui.controller.MealsController" spacing="10" styleClass="content-area">
-    <Label text="Refeições" styleClass="label-header"/>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <ImageView fitHeight="60" fitWidth="60" preserveRatio="true">
+            <Image url="@../images/food_icon.png"/>
+        </ImageView>
+        <Label text="Refeições" styleClass="label-header"/>
+    </HBox>
 
     <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
         <Tab text="Diário">
@@ -21,6 +28,16 @@
                 <VBox spacing="10" styleClass="card">
                     <Label text="Adicionar Refeição" styleClass="label-subheader"/>
                     
+                    <Label text="Adicionar Rápido:" styleClass="label-subheader"/>
+                    <HBox spacing="10">
+                        <Button text="Arroz" onAction="#onAddRice" styleClass="button-small"/>
+                        <Button text="Massa" onAction="#onAddPasta" styleClass="button-small"/>
+                        <Button text="Batata" onAction="#onAddPotato" styleClass="button-small"/>
+                        <Button text="Leite" onAction="#onAddMilk" styleClass="button-small"/>
+                        <Button text="Ovos" onAction="#onAddEggs" styleClass="button-small"/>
+                        <Button text="Pão" onAction="#onAddBread" styleClass="button-small"/>
+                    </HBox>
+
                     <HBox spacing="10" alignment="CENTER_LEFT">
                         <Label text="Pré-definidos:"/>
                         <ComboBox fx:id="foodSelector" promptText="Selecionar Alimento..." onAction="#onFoodSelected" prefWidth="200"/>

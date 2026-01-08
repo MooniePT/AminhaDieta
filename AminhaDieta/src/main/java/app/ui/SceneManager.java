@@ -73,7 +73,7 @@ public class SceneManager {
         if (state.getProfiles().isEmpty())
             showRegister(false, null);
         else
-            showLogin(); // Always show login if profiles exist, don't auto-login
+            showLogin();
     }
 
 }

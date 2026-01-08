@@ -49,7 +49,6 @@
         <Tab text="Evolução">
              <VBox spacing="10" style="-fx-padding: 10;">
                 <Label text="Evolução de Peso e Calorias" styleClass="label-subheader"/>
-                <!-- Reusing LineChart logic, maybe show daily calories history too? -->
                  <LineChart fx:id="historyChart">
                     <xAxis><CategoryAxis label="Data" /></xAxis>
                     <yAxis><NumberAxis label="Valor" /></yAxis>

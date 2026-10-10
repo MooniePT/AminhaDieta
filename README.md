@@ -1,146 +1,87 @@
-# A Minha Dieta
+# A Minha Dieta – Diet & Fitness Tracker (JavaFX)
 
-## Sobre o Projeto
-**"A Minha Dieta"** é uma aplicação desktop desenvolvida em **Java** (JavaFX) para ajudar os utilizadores a gerir a sua dieta, exercício físico e hidratação. A aplicação permite calcular metas calóricas e de macronutrientes personalizadas, registar refeições, monitorizar o consumo de água e visualizar o progresso através de gráficos intuitivos.
+A desktop application for tracking diet, hydration, exercise and weight. It calculates personalised calorie and macronutrient goals and shows progress through charts and PDF reports.
 
-## Funcionalidades Principais
+> **Academic group project** – Object-Oriented Programming course, University of Beira Interior (UBI).
+> Team: Carlos Farinha, João Rodrigues, Henrique Marques, André Schroder.
 
-### 👤 Gestão de Perfil
-*   **Múltiplos Perfis**: Suporte para vários utilizadores na mesma aplicação, ideal para famílias.
-*   **Cálculo Automático de Metas**: Utiliza a equação de Mifflin-St Jeor para calcular a Taxa Metabólica Basal (TMB) e necessidades calóricas diárias com base em idade, peso, altura, género e nível de atividade física.
-*   **Cálculo de IMC**: Índice de Massa Corporal com classificação automática (Baixo Peso, Saudável, Excesso de Peso, Obesidade).
-*   **Edição de Perfil**: Possibilidade de atualizar dados pessoais a qualquer momento.
+## Screenshots
 
-### 🍎 Diário Alimentar
-*   **Base de Dados de Alimentos**: Lista personalizável de alimentos com informação nutricional completa (calorias, proteína, hidratos de carbono, gordura por 100g).
-*   **Atalhos Rápidos**: Botões pré-configurados para adicionar alimentos comuns rapidamente (Arroz, Massa, Batata, Leite, Ovos, Pão).
-*   **Registo Detalhado**: Cada refeição inclui descrição, calorias e macronutrientes.
-*   **Histórico do Dia**: Lista de todas as refeições registadas no dia atual.
+<!-- Add screenshots to docs/screenshots/ and uncomment:
+![Dashboard](docs/screenshots/dashboard.png)
+![Meals](docs/screenshots/meals.png)
+![History and PDF export](docs/screenshots/history.png)
+-->
 
-### 💧 Monitorização de Hidratação
-*   **Meta Inteligente**: A meta diária de água é calculada automaticamente (35ml por kg de peso corporal).
-*   **Registo Fácil**: Adicione copos de 250ml, garrafas de 500ml ou quantidades personalizadas.
-*   **Alertas Motivacionais**: Mensagens de parabéns ao atingir o objetivo diário de hidratação.
-*   **Remoção de Registo**: Possibilidade de remover o último registo em caso de erro.
+## Features
 
-### 🏃 Registo de Exercício Físico
-*   **Tipos Pré-definidos**: Caminhada, Corrida, Ciclismo, Natação, Musculação, Yoga.
-*   **Atividades Personalizadas**: Adicione qualquer tipo de exercício.
-*   **Registo Completo**: Duração em minutos e calorias queimadas.
-*   **Feedback Motivacional**: Mensagens de incentivo após cada registo de exercício.
-*   **Gráfico Semanal**: Visualize as calorias queimadas nos últimos 7 dias.
+- **Multiple user profiles** with automatic BMR (Mifflin-St Jeor), daily calorie target and BMI classification
+- **Food diary** with a customisable food database (kcal, protein, carbs, fat per 100 g) and quick-add shortcuts
+- **Hydration tracking** with a daily goal based on body weight (35 ml/kg)
+- **Exercise log** with predefined and custom activities, and a 7-day calories-burned chart
+- **Dashboard** with progress bars, a macronutrient pie chart and a weight-evolution line chart
+- **History** with search, date filters and **PDF export**
+- **Customisable UI**: animated or static background colours and selectable fonts
+- **Local persistence** using Java serialization (no external database needed)
 
-### 📊 Dashboard e Relatórios
-*   **Resumo Diário**: Progresso visual de calorias, água e macronutrientes.
-*   **Barras de Progresso**: Indicadores visuais para cada meta diária.
-*   **Gráfico de Macros**: PieChart mostrando a distribuição de proteína, hidratos, gordura e água.
-*   **Evolução do Peso**: LineChart para acompanhar alterações no peso.
-*   **Histórico Completo**: TableView com todas as refeições e exercícios registados.
-*   **Filtros de Pesquisa**: Filtre o histórico por descrição ou intervalo de datas.
-*   **Exportação PDF**: Gere relatórios detalhados para imprimir ou partilhar.
+## Tech Stack
 
-### 🎨 Personalização Visual
-*   **Modo Arco-íris**: Fundo dinâmico com gradiente de cores em constante animação.
-*   **Modo Estático**: Escolha uma cor fixa com ColorPicker.
-*   **Tipografia Personalizável**: Selecione entre Verdana, Arial, Segoe UI, Tahoma ou Comic Sans MS.
-*   **Interface Moderna**: Design com gradientes vibrantes e navegação intuitiva.
+- Java 21
+- JavaFX 21 (FXML + CSS)
+- Maven (javafx-maven-plugin, maven-shade-plugin)
+- OpenPDF (PDF reports)
+- Inno Setup (Windows installer)
 
-### 🏆 Gamificação e Motivação
-*   **Alertas de Celebração**: Notificação de parabéns ao atingir a meta de hidratação.
-*   **Feedback de Exercício**: Mensagens motivacionais após registar atividades físicas.
-*   **Status de IMC**: Classificação visual do índice de massa corporal.
+## Download
 
-## Arquitetura do Projeto
+A Windows installer is available on the [Releases page](https://github.com/MooniePT/AminhaDieta/releases/latest).
 
-A aplicação segue o padrão **MVC (Model-View-Controller)**:
+## Getting Started
 
-*   **Model** (`app.model`): Classes de domínio
-    - `UserProfile`: Perfil do utilizador com dados pessoais e registos
-    - `AppState`: Estado global da aplicação com lista de perfis
-    - `Food`: Alimentos da base de dados
-    - `MealEntry`: Registo de refeições
-    - `WaterEntry`: Registo de consumo de água
-    - `WeightEntry`: Registo de peso
-    - `ExerciseEntry`: Registo de exercícios físicos
+**Requirements:** JDK 21+ and Maven 3.6+
 
-*   **View** (`resources/fxml` e `resources/css`): Interface gráfica
-    - Ficheiros FXML para cada ecrã
-    - CSS para estilização
+```bash
+git clone https://github.com/MooniePT/AminhaDieta.git
+cd AminhaDieta/AminhaDieta
+mvn clean javafx:run
+```
 
-*   **Controller** (`app.ui.controller`): Gestão de eventos e lógica de interface
-    - `DashboardController`: Navegação principal e temas
-    - `HomeController`: Dashboard do utilizador
-    - `MealsController`: Gestão de refeições
-    - `HydrationController`: Gestão de água
-    - `ExerciseController`: Gestão de exercícios
-    - `HistoryController`: Histórico e exportação PDF
-    - `SettingsController`: Definições visuais
-    - `LoginController`: Seleção de perfil
-    - `RegisterController`: Criação/edição de perfil
+To build a runnable fat JAR:
 
-*   **Persistência** (`app.persistence`): Serialização Java para ficheiro local (`appstate.dat`)
+```bash
+mvn clean package
+java -jar target/AMinhaDieta-1.0.0.jar
+```
 
-## Requisitos do Sistema
-*   **Java Development Kit (JDK)** 17 ou superior
-*   **Maven** 3.6 ou superior
+No Maven installed? On Windows, `build_with_portable_maven.ps1` downloads a temporary Maven and runs the build.
 
-## Como Executar
+## Project Structure
 
-1. **Clonar o repositório:**
-   ```bash
-   git clone https://github.com/MooniePT/AminhaDieta.git
-   cd AminhaDieta
-   ```
-
-2. **Compilar o projeto:**
-   ```bash
-   cd AminhaDieta
-   mvn clean compile
-   ```
-
-3. **Executar a aplicação:**
-   ```bash
-   mvn javafx:run
-   ```
-
-## Estrutura de Diretórios
 ```
 AminhaDieta/
-├── AminhaDieta/
+├── AminhaDieta/                 # Maven project
+│   ├── pom.xml
+│   ├── setup.iss                # Inno Setup installer script
 │   └── src/main/
 │       ├── java/app/
-│       │   ├── model/           # Classes de domínio
-│       │   ├── persistence/     # Gestão de dados
-│       │   ├── ui/              # Controladores JavaFX
-│       │   │   ├── controller/  # Controladores das vistas
-│       │   │   └── SceneManager.java
-│       │   ├── Main.java        # Ponto de entrada JavaFX
-│       │   └── Launcher.java    # Launcher para módulos
+│       │   ├── Main.java / Launcher.java   # Entry points
+│       │   ├── model/           # Domain classes (UserProfile, MealEntry, Food, ...)
+│       │   ├── persistence/     # DataStore – saves/loads app state
+│       │   └── ui/              # SceneManager + one controller per screen
 │       └── resources/
-│           ├── css/             # Estilos CSS
-│           ├── fxml/            # Definições de interface
-│           └── images/          # Ícones e imagens
-├── data/                        # Dados persistentes
-├── GIT_MANUAL.md               # Manual de Git
-├── Project_Report.md           # Relatório do projeto
-├── README.md                   # Este ficheiro
-└── Relatorio_Final.tex         # Relatório LaTeX
+│           ├── fxml/            # Screen layouts
+│           ├── css/             # Styles
+│           └── images/          # Icons
+└── docs/
+    ├── GIT_MANUAL.md            # Team Git workflow (Portuguese)
+    └── study-guide-pt/          # Study notes on the code (Portuguese)
 ```
 
-## Como Contribuir
-Contribuições são bem-vindas! Consulte o [Manual Git](GIT_MANUAL.md) para instruções detalhadas.
+The application follows an **MVC** structure: models in `app.model`, views in FXML/CSS, and controllers in `app.ui.controller`.
 
-1.  Faça um **Fork** do repositório.
-2.  Crie um **Branch** para a sua funcionalidade (`git checkout -b feature/nova-funcionalidade`).
-3.  Faça **Commit** das suas alterações (`git commit -m 'Adicionei nova funcionalidade'`).
-4.  Faça **Push** para o Branch (`git push origin feature/nova-funcionalidade`).
-5.  Abra um **Pull Request**.
+## What I Learned
 
-## Equipa de Desenvolvimento
-*   Carlos Farinha
-*   João Rodrigues
-*   Henrique Marques
-*   André Schroder
-
-## Licença
-Este projeto foi desenvolvido no âmbito da Unidade Curricular de Programação Orientada a Objetos.
+- Designing an object-oriented domain model and applying MVC in a real desktop app
+- Building UIs with JavaFX, FXML and CSS, including charts and scene navigation
+- Managing builds and dependencies with Maven and packaging a Windows installer
+- Working in a 4-person team with Git branches and pull requests

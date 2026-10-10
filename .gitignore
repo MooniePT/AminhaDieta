@@ -37,3 +37,10 @@ Output/
 
 
 
+
+# Maven Shade output
+dependency-reduced-pom.xml
+
+# Archives
+*.rar
+*.zip
